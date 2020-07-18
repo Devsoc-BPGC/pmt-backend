@@ -14,7 +14,9 @@
     "bcrypt-nodejs": "0.0.3",
     "bluebird": "^3.5.2",
     "body-parser": "^1.18.3",
+    "bull": "^3.15.0",
     "compression": "^1.7.4",
+    "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
     "dotenv": "^8.2.0",
@@ -26,25 +28,29 @@
     "express-validator": "^6.6.0",
     "font-awesome": "^4.7.0",
     "jsonwebtoken": "^8.5.1",
-    "bull": "^3.15.0",
     "lodash": "^4.17.11",
     "lusca": "^1.6.1",
     "memory-cache": "^0.2.0",
+    "passport": "^0.4.1",
+    "path": "^0.12.7",
     "pug": "^2.0.3",
     "tslint": "^5.11.0"
   },
   "devDependencies": {
     "@types/bcrypt-nodejs": "^0.0.31",
     "@types/compression": "^1.7.0",
+    "@types/cookie-parser": "^1.4.2",
     "@types/cors": "^2.8.6",
     "@types/express": "^4.17.7",
     "@types/express-session": "^1.17.0",
     "@types/jest": "26.0.4",
+    "@types/memory-cache": "^0.2.1",
     "@types/node": "14.0.23",
+    "@types/passport": "^1.0.4",
     "awesome-typescript-loader": "^5.2.0",
+    "eslint": "7.4.0",
     "jest": "^26.1.0",
     "typescript": "3.9.6",
-    "typescript-eslint-parser": "^22.0.0",
-    "eslint": "7.4.0"
+    "typescript-eslint-parser": "^22.0.0"
   }
 }
