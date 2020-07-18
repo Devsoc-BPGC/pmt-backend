@@ -4,6 +4,7 @@ name: Linter
 # events on all branches
 on:
   push:
+    branches: [ master ]
   pull_request:
 
 jobs:
