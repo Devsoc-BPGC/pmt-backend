@@ -5,12 +5,13 @@
  */
 
 import * as express from 'express';
-import SecurityMiddleWare from './middleware/SecurityMiddleWare';
+
+import Kernel from '../middleware/Kernel';
 
 class Express {
 	/**
-	 * Create express app
-	 */
+     * Create express app
+     */
 
 	public express: express.Application; // express.Application indicates the interface type of express app.
 
@@ -18,42 +19,42 @@ class Express {
 		this.express = express();
 
 		this.mountEnv();
-		this.mountMiddleware(this.express);
+		this.mountMiddleware();
 		this.mountRoutes();
 	}
 
 	/**
-	 * mountEnv: For loading env
-	 */
+     * mountEnv: For loading env
+     */
 	private mountEnv(): void {
 		// Load the env file here.
 	}
 
 	/**
-	 * mountMiddleware: For adding middlewares
-	 */
-	private mountMiddleware(express: express.Application): void {
+     * mountMiddleware: For adding middlewares
+     */
+	private mountMiddleware(): void {
 		// Load your middlewares here
-		express = new SecurityMiddleWare().apply(express);
+		this.express = new Kernel(this.express).init();
 	}
 
 	/**
-	 * mountRoutes: For adding routes
-	 */
+     * mountRoutes: For adding routes
+     */
 	private mountRoutes(): void {
 		// Load your routes here
 	}
 
 	/**
-	 * mountErrors: For handling errors/exceptions
-	 */
-	public mountErrors() {
+     * mountErrors: For handling errors/exceptions
+     */
+	private mountErrors() {
 		// Load your error/exceptions here
 	}
 
 	/**
-	 * init
-	 */
+     * init
+     */
 	public init(PORT: string): void {
 		const port = PORT;
 
@@ -63,4 +64,4 @@ class Express {
 	}
 }
 
-export default new Express();
+export default new Express;

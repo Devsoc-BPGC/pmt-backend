@@ -1,20 +1,15 @@
 /**
  * Bootstrap your app
  *
- * @author DevSoc
+ * @author Sarvesh Shinde <SarveshShinde64@gmail.com>
  */
 
 import * as os from 'os';
 import * as cluster from 'cluster';
 
-import app from './Express';
+import app from './providers/App';
 
 class App {
-	public PORT: string;
-
-	constructor() {
-		this.PORT = process.env.PORT || '5000';
-	}
 
 	public run(clusterMode: Boolean) {
 		const mode: Boolean = clusterMode;
@@ -35,13 +30,14 @@ class App {
 				/**
 				 * Run the server on clusters.
 				 */
-				// App.loadServer();
-				app.init(this.PORT);
+				app.loadServer();
+				app.loadDatabase();
 
 				console.log(`Worker ${process.pid} started`);
 			}
 		} else {
-			app.init(this.PORT);
+			app.loadServer();
+			app.loadDatabase();
 
 			console.log(`Worker ${process.pid} started`);
 		}

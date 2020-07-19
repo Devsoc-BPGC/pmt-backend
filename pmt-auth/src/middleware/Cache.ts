@@ -12,7 +12,7 @@ class Cache {
 	 * or adds if not available
 	 */
 	public cache(duration: number): any {
-		return (req: any, res: any, next:any) => {
+		return (req: any, res: any, next: any) => {
 			let key = '__express__' + req.originalUrl || req.url;
 
 			let cachedBody = memoryCache.get(key);
