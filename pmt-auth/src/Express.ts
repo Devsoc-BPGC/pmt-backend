@@ -5,6 +5,7 @@
  */
 
 import * as express from 'express';
+import SecurityMiddleWare from './middlewares/SecurityMiddleWare'
 
 class Express {
     /**
@@ -17,7 +18,7 @@ class Express {
         this.express = express();
 
         this.mountEnv();
-        this.mountMiddleware();
+        this.mountMiddleware(this.express);
         this.mountRoutes();
     }
 
@@ -31,8 +32,9 @@ class Express {
     /**
      * mountMiddleware: For adding middlewares
      */
-    private mountMiddleware(): void {
+    private mountMiddleware(express:express.Application): void {
         // Load your middlewares here
+        SecurityMiddleWare.apply(express);
     }
 
     /**
