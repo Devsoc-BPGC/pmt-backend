@@ -5,7 +5,7 @@
  */
 
 import * as express from 'express';
-import SecurityMiddleWare from './middlewares/SecurityMiddleWare'
+import SecurityMiddleWare from './middleware/SecurityMiddleWare'
 
 class Express {
     /**
