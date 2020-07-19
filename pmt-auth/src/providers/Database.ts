@@ -6,7 +6,7 @@ export default class Database {
     public static init (): void {
         createConnection().then(async connection => {
 
-            console.log('Inserting a new user into the database...');
+            /* console.log('Inserting a new user into the database...');
             const user = new Users();
             user.firstName = 'Timber';
             user.lastName = 'Saw';
@@ -16,7 +16,7 @@ export default class Database {
             console.log('Saved a new user with id: ' + user.id);
             console.log('Loading users from the database...');
             const users = await connection.manager.find(Users);
-            console.log('Loaded users: ', users);
+            console.log('Loaded users: ', users); */
         
             console.log('Here you can setup and run express/koa/any other framework.');
         

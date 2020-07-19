@@ -6,6 +6,8 @@
 
 import * as express from 'express';
 
+import Kernel from '../middleware/Kernel';
+
 class Express {
 	/**
      * Create express app
@@ -33,6 +35,7 @@ class Express {
      */
 	private mountMiddleware(): void {
 		// Load your middlewares here
+		this.express = new Kernel(this.express).init();
 	}
 
 	/**
