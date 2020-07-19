@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "build": "tsc --project './tsconfig.json'",
-    "dev": "tsc --project './tsconfig.json' --watch & NODE_ENV=development nodemon dist/app.js"
+    "dev": "tsc --project './tsconfig.json' --watch & NODE_ENV=development nodemon build/app.js",
+    "prod": "tsc --project './tsconfig.json' --watch & NODE_ENV=development node build/app.js"
   },
   "author": "DevSoc",
   "license": "MIT",
@@ -14,6 +15,7 @@
     "bcrypt-nodejs": "0.0.3",
     "bluebird": "^3.5.2",
     "body-parser": "^1.18.3",
+    "bull": "^3.15.0",
     "compression": "^1.7.4",
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
@@ -26,12 +28,14 @@
     "express-validator": "^6.6.0",
     "font-awesome": "^4.7.0",
     "jsonwebtoken": "^8.5.1",
-    "bull": "^3.15.0",
     "lodash": "^4.17.11",
     "lusca": "^1.6.1",
     "memory-cache": "^0.2.0",
+    "pg": "^8.3.0",
     "pug": "^2.0.3",
-    "tslint": "^5.11.0"
+    "reflect-metadata": "^0.1.13",
+    "tslint": "^5.11.0",
+    "typeorm": "^0.2.25"
   },
   "devDependencies": {
     "@types/bcrypt-nodejs": "^0.0.31",

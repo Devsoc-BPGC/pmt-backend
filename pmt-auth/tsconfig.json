@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-      "outDir": "dist",
+      "outDir": "build",
       "allowJs": false,
       "target": "es2017",
       "module": "commonjs",
@@ -8,6 +8,7 @@
       "sourceMap": true,
       "strict": true,
       "experimentalDecorators": true,
+      "emitDecoratorMetadata": true,
       "jsx": "react",
       "importHelpers": true,
       "lib": [ "es2017", "dom" ]
