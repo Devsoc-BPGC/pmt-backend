@@ -14,9 +14,10 @@ class Locals {
 		const url = process.env.APP_URL || `http://localhost:${port}/`;
 		const appSecret = process.env.APP_SECRET || 'App_Secret';
 		const name = process.env.APP_NAME || 'Project Management Tool';
-		const isCorsEnabled = process.env.IS_CORS_ENABLED === 'true';
+		const isCorsEnabled = process.env.IS_CORS_ENABLED === 'true' || true;
 		const orgName = process.env.ORG_NAME || 'Developers\' Society, BITS Goa';
 		const isClusterMode = process.env.CLUSTER === 'true';
+		console.log(port, url, appSecret, name, isCorsEnabled, orgName, isClusterMode);
 
 		return {
 			app: {
