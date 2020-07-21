@@ -6,6 +6,7 @@
 
 import Express from './Express';
 import Database from './Database';
+import Cache from './RedisCache';
 
 export class App {
 	/**
@@ -30,6 +31,13 @@ export class App {
      */
 	public loadDatabase() {
 		Database.init();
+	}
+
+	/**
+	 * Load the Cache
+	 */
+	public loadCache() {
+		Cache.init();
 	}
 }
 
