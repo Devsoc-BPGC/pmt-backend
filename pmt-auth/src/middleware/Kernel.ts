@@ -27,10 +27,10 @@ class Kernel {
   }
 
   public init(): Application {
+    this.express = this.locals.init();
     this.express = this.security.apply();
     this.express = this.passport.init();
     this.express = this.http.mount();
-    this.express = this.locals.init();
 
     return this.express;
   }
