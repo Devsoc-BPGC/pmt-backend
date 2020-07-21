@@ -4,31 +4,36 @@
  * @author Sarvesh Shinde <SarveshShinde64@gmail.com
  */
 
-import Http from './Http';
-import Security from './Security';
-import Locals from '../config/Locals';
+import Http from "./Http";
+import Security from "./Security";
+import Passport from "./Passport";
+import Locals from "../config/Locals";
 
-import { Application } from 'express';
+import { Application } from "express";
 
 class Kernel {
-	public security: Security;
-	public express: Application;
-	public http: Http;
-	public locals: Locals;
+  public security: Security;
+  public express: Application;
+  public http: Http;
+  public passport: Passport;
+  public locals: Locals;
 
-	constructor(__express: Application) {
-		this.security = new Security(__express);
-		this.http = new Http(__express);
-		this.locals = new Locals(__express);
-		this.express = __express;
-	}
+  constructor(__express: Application) {
+    this.security = new Security(__express);
+    this.http = new Http(__express);
+    this.express = __express;
+    this.passport = new Passport();
+    this.locals = new Locals(__express);
+  }
 
-	public init (): Application {
-		this.express = this.security.apply();
-		this.express = this.http.mount();
-		this.express = this.locals.init();
-		return this.express;
-	}
+  public init(): Application {
+    this.express = this.locals.init();
+    this.express = this.security.apply();
+    this.express = this.passport.init();
+    this.express = this.http.mount();
+
+    return this.express;
+  }
 }
 
 export default Kernel;
