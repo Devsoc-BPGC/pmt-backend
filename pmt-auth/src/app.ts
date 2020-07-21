@@ -38,6 +38,7 @@ class App {
 		} else {
 			app.loadServer();
 			app.loadDatabase();
+			app.loadCache();
 
 			console.log(`Worker ${process.pid} started`);
 		}
