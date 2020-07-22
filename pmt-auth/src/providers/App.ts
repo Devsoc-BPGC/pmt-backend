@@ -6,13 +6,11 @@
 
 import Express from './Express';
 import Database from './Database';
-import Cache from './RedisCache';
 
 export class App {
 	/**
      * Initialize your app
      */
-
 	public PORT: string;
 
 	constructor() {
@@ -31,13 +29,6 @@ export class App {
      */
 	public loadDatabase() {
 		Database.init();
-	}
-
-	/**
-	 * Load the Cache
-	 */
-	public loadCache() {
-		Cache.init();
 	}
 }
 
