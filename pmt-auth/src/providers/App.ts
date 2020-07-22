@@ -6,6 +6,7 @@
 
 import Express from './Express';
 import Database from './Database';
+import Passport from './Passport';
 
 export class App {
 	/**
@@ -29,6 +30,13 @@ export class App {
      */
 	public loadDatabase() {
 		Database.init();
+	}
+
+	/**
+	 * Initialise passport
+	 */
+	public loadPassport() {
+		Passport.init();
 	}
 }
 

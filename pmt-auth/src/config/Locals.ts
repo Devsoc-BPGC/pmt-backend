@@ -3,11 +3,7 @@ import * as dotenv from 'dotenv';
 import * as path from 'path';
 
 class Locals {
-	public express: Application;
-	constructor(__express: Application) {
-		this.express = __express;
-	}
-	private config() {
+	public config(): Object {
 		dotenv.config({ path: path.join(__dirname, '../../.env') });
 
 		const port = process.env.PORT || '5000';
@@ -17,7 +13,10 @@ class Locals {
 		const isCorsEnabled = process.env.IS_CORS_ENABLED === 'true' || true;
 		const orgName = process.env.ORG_NAME || 'Developers\' Society, BITS Goa';
 		const isClusterMode = process.env.CLUSTER === 'true';
-		console.log(port, url, appSecret, name, isCorsEnabled, orgName, isClusterMode);
+		const clientID = process.env.CLIENTID || '32c165309b81af8510b0';
+		const clientSecret = process.env.CLIENTSECRET || 'c78b52ea8eb44fa3e5e35730d726fc132667538f';
+		const callbackURL = url + process.env.CALLBACKPATH || '/auth/github/callback';
+		console.log(port, url, appSecret, name, isCorsEnabled, orgName, isClusterMode, callbackURL);
 
 		return {
 			app: {
@@ -27,15 +26,20 @@ class Locals {
 				appName: name,
 				isCorsEnabled: isCorsEnabled,
 				organization: orgName,
-				isClusterMode: isClusterMode
+				isClusterMode: isClusterMode,
+				github: {
+					clientID: clientID,
+					clientSecret: clientSecret,
+					callbackURL: callbackURL
+				}
 			}
 		};
 	}
 
-	public init(): Application {
-		this.express.locals.config = this.config();
-		return this.express;
+	public init(__express: Application): Application {
+		__express.locals.config = this.config();
+		return __express;
 	}
 }
 
-export default Locals;
+export default new Locals;
