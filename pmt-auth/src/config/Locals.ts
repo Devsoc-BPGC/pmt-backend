@@ -1,9 +1,10 @@
 import { Application } from 'express';
 import * as dotenv from 'dotenv';
 import * as path from 'path';
+import { Env } from  '../interfaces/locals';
 
 class Locals {
-	public config(): Object {
+	public config(): Env {
 		dotenv.config({ path: path.join(__dirname, '../../.env') });
 
 		const port = process.env.PORT || '5000';

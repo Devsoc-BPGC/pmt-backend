@@ -2,10 +2,11 @@
 import * as passport from 'passport';
 import { Strategy } from 'passport-github';
 import Locals from '../config/Locals';
+import { Env } from '../interfaces/locals';
 
 class Passport {
   	public init(): any {
-  	const env: any = Locals.config();
+  	const env: Env = Locals.config();
 		 console.log('Passport initialised!');
 		 return passport.use(
 			new Strategy(
