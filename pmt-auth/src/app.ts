@@ -36,9 +36,9 @@ class App {
 				console.log(`Worker ${process.pid} started`);
 			}
 		} else {
+			app.loadPassport();
 			app.loadServer();
 			app.loadDatabase();
-			app.loadCache();
 
 			console.log(`Worker ${process.pid} started`);
 		}

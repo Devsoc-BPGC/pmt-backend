@@ -5,8 +5,8 @@
   "main": "app.js",
   "scripts": {
     "build": "tsc --project './tsconfig.json'",
-    "dev": "tsc --project './tsconfig.json' --watch & NODE_ENV=development nodemon build/app.js",
-    "prod": "tsc --project './tsconfig.json' --watch & NODE_ENV=development node build/app.js"
+    "start:dev": "tsc --project './tsconfig.json' --watch & NODE_ENV=development nodemon build/app.js",
+    "start:prod": "tsc --project './tsconfig.json' --watch & NODE_ENV=development node build/app.js"
   },
   "author": "DevSoc",
   "license": "MIT",
@@ -55,6 +55,7 @@
     "@types/memory-cache": "^0.2.1",
     "@types/node": "14.0.23",
     "@types/passport": "^1.0.4",
+    "@types/passport-github": "^1.1.5",
     "@types/redis": "^2.8.25",
     "awesome-typescript-loader": "^5.2.0",
     "eslint": "7.4.0",
