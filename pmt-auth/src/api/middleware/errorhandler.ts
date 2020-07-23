@@ -5,7 +5,7 @@ interface HttpError extends Error {
   message: string;
 }
 class ErrorHandler {
-  public handler(
+  public handle(
     error: HttpError,
     req: Request,
     res: Response,
