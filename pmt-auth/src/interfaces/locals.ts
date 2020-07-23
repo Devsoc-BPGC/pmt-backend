@@ -17,6 +17,59 @@ export interface Env {
 			clientID: string,
 			clientSecret: string,
 			callbackURL: string
+		},
+		redis: {
+			host: string
+		},
+		postgres: {
+			type: string,
+			host: string,
+			port: string,
+			username: string,
+			password: string,
+			database: string,
+			entities: [
+				string
+			 ],
+			 migrations: [
+				string
+			 ],
+			 subscribers: [
+				string
+			 ],
+			 cli: {
+				'entitiesDir': string,
+				'migrationsDir': string,
+				'subscribersDir': string
+			}
+	}
+	};
+	docker: {
+		redis: {
+			host: string
+		},
+		postgres: {
+				type: string,
+                host: string,
+                port: string,
+                username: string,
+                password: string,
+                database: string,
+                entities: [
+                    string
+                 ],
+                 migrations: [
+                    string
+                 ],
+                 subscribers: [
+                    string
+                 ],
+                 cli: {
+                    'entitiesDir': string,
+                    'migrationsDir': string,
+                    'subscribersDir': string
+                }
 		}
 	};
+	is_docker: boolean;
 }
