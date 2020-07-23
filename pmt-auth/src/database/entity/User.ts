@@ -2,8 +2,8 @@ import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
 export class Users {
-
-	@PrimaryGeneratedColumn()
+    
+    @PrimaryGeneratedColumn()
     id: number | undefined;
     
     @Column('text')
@@ -17,11 +17,11 @@ export class Users {
 
     @Column('text')
     repos_url: string | undefined;
-
-	@Column('text')
-	name: string | undefined;
-
-	@Column('text')
+    
+    @Column('text')
+    name: string | undefined;
+    
+    @Column('text')
     company: string | undefined;
     
     @Column('text')
