@@ -3,3 +3,5 @@ node_modules/
 build
 npm-debug.log
 .DS_Store
+redis.conf
+redis-data
