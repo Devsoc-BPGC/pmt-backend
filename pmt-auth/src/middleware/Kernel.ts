@@ -6,26 +6,28 @@
 
 import Http from './Http';
 import Security from './Security';
+import Locals from '../config/Locals';
 
 import { Application } from 'express';
 
 class Kernel {
-	public security: Security;
-	public express: Application;
-	public http: Http;
+  public security: Security;
+  public express: Application;
+  public http: Http;
 
-	constructor(__express: Application) {
-		this.security = new Security(__express);
-		this.http = new Http(__express);
-		this.express = __express;
-	}
+  constructor(__express: Application) {
+	this.security = new Security(__express);
+	this.http = new Http(__express);
+	this.express = __express;
+  }
 
-	public init (): Application {
-		this.express = this.security.apply();
-		this.express = this.http.mount();
+  public init(): Application {
+	this.express = Locals.init(this.express);
+	this.express = this.security.apply();
+	this.express = this.http.mount();
 
-		return this.express;
-	}
+	return this.express;
+  }
 }
 
 export default Kernel;

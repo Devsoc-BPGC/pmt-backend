@@ -1,0 +1,11 @@
+# Config file for setting up CI with Travis.
+
+language: node_js
+node_js: "14"
+before_script:
+    - cd pmt-auth
+    - npm install --save-exact
+    - npm run build
+script:
+    - npm run lint
+    - npm run test

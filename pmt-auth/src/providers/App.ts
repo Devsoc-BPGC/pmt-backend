@@ -6,12 +6,12 @@
 
 import Express from './Express';
 import Database from './Database';
+import Passport from './Passport';
 
 export class App {
 	/**
      * Initialize your app
      */
-
 	public PORT: string;
 
 	constructor() {
@@ -30,6 +30,13 @@ export class App {
      */
 	public loadDatabase() {
 		Database.init();
+	}
+
+	/**
+	 * Initialise passport
+	 */
+	public loadPassport() {
+		Passport.init();
 	}
 }
 
