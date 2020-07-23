@@ -2,10 +2,10 @@ import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
 export class Users {
-    
+
     @PrimaryGeneratedColumn()
     id: number | undefined;
-    
+
     @Column('text')
     login: string | undefined;
 
@@ -17,25 +17,25 @@ export class Users {
 
     @Column('text')
     repos_url: string | undefined;
-    
+
     @Column('text')
     name: string | undefined;
-    
+
     @Column('text')
     company: string | undefined;
-    
+
     @Column('text')
     blog: string | undefined;
-    
+
     @Column('text')
     location: string | undefined;
-    
+
     @Column('text')
     email: string | undefined;
-    
+
     @Column('text')
     bio: string | undefined;
-    
+
     @Column('text')
     twitter_username: string | undefined;
 
