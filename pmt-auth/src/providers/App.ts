@@ -6,13 +6,12 @@
 
 import Express from './Express';
 import Database from './Database';
-import Cache from './RedisCache';
+import Passport from './Passport';
 
 export class App {
 	/**
      * Initialize your app
      */
-
 	public PORT: string;
 
 	constructor() {
@@ -34,10 +33,10 @@ export class App {
 	}
 
 	/**
-	 * Load the Cache
+	 * Initialise passport
 	 */
-	public loadCache() {
-		Cache.init();
+	public loadPassport() {
+		Passport.init();
 	}
 }
 

@@ -1,0 +1,58 @@
+version: '3'
+
+# Define the services/containers to be run
+services:
+  mello-backend: #name of your service
+    container_name: mello-backend
+    build: ./ # specify the directory of the Dockerfile
+    #image: node:10.19.0
+    command: npm run start:prod
+    ports:
+      - "5000:5000" #specify ports forwarding
+    networks: 
+      - mello
+    links:
+      - database # link this service to the database service
+      - cache
+    volumes:
+      - nodemodules:/usr/src/app/node_modules
+      - .:/usr/src/app
+    depends_on:
+      - database
+    environment: 
+      DATABASE_URL: postgres://postgres:eatsleepcode@database:5432/mello 
+    working_dir: /usr/src/app
+
+  database: # name of the service
+    image: postgres:11.7 # specify image to build container from
+    container_name: mello-postgres
+    environment: 
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: eatsleepcode
+      POSTGRES_DB: mello
+    networks: 
+      - mello
+    volumes: 
+      - psql:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    
+  cache: #name of the service
+    image: redis:6
+    container_name: mello-cache
+    networks:
+      - mello
+    ports:
+      - 6379:6379
+    volumes: 
+      - $PWD/redis-data:/var/lib/redis
+      - $PWD/redis.conf:/usr/local/etc/redis/redis.conf
+
+
+volumes: 
+  nodemodules:
+  psql:
+
+networks: 
+  mello:
+  
