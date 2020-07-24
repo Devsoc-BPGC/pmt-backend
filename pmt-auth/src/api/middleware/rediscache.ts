@@ -5,17 +5,22 @@
  */
 
 import * as redis from 'redis';
-import { error } from 'console';
+import Locals from '../../config/Locals';
+import { Env } from '../../interfaces/locals';
 
 class Cache {
 
 	public redisClient: redis.RedisClient;
+	public options: Object;
+	public env: Env;
 
-	constructor(options: Object) {
-		this.redisClient = redis.createClient(options);
+	constructor() {
+		this.env = Locals.config();
+		this.options = this.env.is_docker ? this.env.docker.redis : this.env.app.redis;
+		console.log(this.options);
+		this.redisClient = redis.createClient(this.options);
 		this.redisClient = this.init();
 	}
-
 	/**
      * Initialises redis.
      */
@@ -61,4 +66,4 @@ class Cache {
 	}
 }
 
-export default new Cache({});
+export default new Cache();
