@@ -8,6 +8,7 @@ import * as path from 'path';
 import * as cookieParser from 'cookie-parser';
 import * as passport from 'passport';
 import * as express from 'express';
+import Loggers from './Logger';
 
 import { Application } from 'express';
 
@@ -19,7 +20,7 @@ class Http {
 	}
 
 	public mount(): Application {
-
+		this.express.use(...((new Loggers()).init()));
 		this.express.use(cookieParser());
 		this.express.use(bodyParser.json());
 		this.express.use(bodyParser.urlencoded({ extended: true }));
