@@ -46,6 +46,27 @@ class Http {
 		// Disable the x-powered-by header in response
 		this.express.disable('x-powered-by');
 
+		// Passport related routes
+		// This opens the authorize application page
+		this.express.get(
+			'/auth/github',
+			passport.authenticate('github', {
+			  scope: ['user:email', 'repo'],
+			  session: false,
+			})
+		  );
+
+		  // Add controller to perform tasks once user is authenticated
+		  this.express.get(
+			'/auth/github/callback',
+			passport.authenticate('github', {
+			  session: false,
+			}),
+			(req, res, next) => {
+			  // Call auth.ts 
+			}
+		  );
+
 		this.express.use('/', (req, res): void => {
 			console.log('Welcome to the app');
 			res.status(200).json({
