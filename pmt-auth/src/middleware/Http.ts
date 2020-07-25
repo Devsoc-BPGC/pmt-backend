@@ -52,18 +52,18 @@ class Http {
 			'/auth/github',
 			passport.authenticate('github', {
 			  scope: ['user:email', 'repo'],
-			  session: false,
+			  session: false
 			})
 		  );
 
 		  // Add controller to perform tasks once user is authenticated
-		  this.express.get(
+		this.express.get(
 			'/auth/github/callback',
 			passport.authenticate('github', {
-			  session: false,
+			  session: false
 			}),
 			(req, res, next) => {
-			  // Call auth.ts 
+              // Call auth controller
 			}
 		  );
 
