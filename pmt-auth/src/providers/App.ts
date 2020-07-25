@@ -28,8 +28,12 @@ export class App {
 	/**
      * Load the database
      */
-	public loadDatabase() {
-		Database.init();
+	public async loadDatabase() {
+		try {
+			await Database.init();
+		} catch (err) {
+			throw new Error(err);
+		}
 	}
 
 	/**
