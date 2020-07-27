@@ -1,11 +1,8 @@
 import { Request, Response, NextFunction } from 'express';
+import { HttpError } from '../../interfaces/vendors/Error';
 
-interface HttpError extends Error {
-  status: number;
-  message: string;
-}
 class ErrorHandler {
-  public handle(
+  public static handle(
     error: HttpError,
     req: Request,
     res: Response,
@@ -13,7 +10,10 @@ class ErrorHandler {
   ): void {
     const message = error.message || 'Internal server error';
     const status = error.status || 500;
-    res.status(status).json({ success: false, message });
+    res.status(status).json({
+      success: false,
+      message: message
+    });
   }
 }
 
