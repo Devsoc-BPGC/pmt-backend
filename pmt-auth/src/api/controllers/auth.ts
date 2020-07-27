@@ -2,7 +2,6 @@ import { Request, Response, NextFunction } from 'express';
 import { getRepository } from 'typeorm';
 import { Users } from '../../database/entity/User';
 
-
 class Auth {
   public user: any;
   constructor(
