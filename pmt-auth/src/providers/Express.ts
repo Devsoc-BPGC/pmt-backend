@@ -7,6 +7,7 @@
 import * as express from 'express';
 
 import Kernel from '../middleware/Kernel';
+import ErrorHandler from '../api/middleware/errorhandler';
 
 class Express {
 	/**
@@ -21,6 +22,7 @@ class Express {
 		this.mountEnv();
 		this.mountMiddleware();
 		this.mountRoutes();
+		this.mountErrors();
 	}
 
 	/**
@@ -50,6 +52,8 @@ class Express {
      */
 	private mountErrors() {
 		// Load your error/exceptions here
+		this.express.use(ErrorHandler.handle);	 // Mounting Error-Handling middleware
+
 	}
 
 	/**
