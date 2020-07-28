@@ -6,9 +6,8 @@
 
 import * as path from 'path';
 import * as express from 'express';
-import { Application } from 'express';
 
-// import Log from './Log';
+import { Application } from 'express';
 
 class Statics {
 	public express: Application;
@@ -18,7 +17,7 @@ class Statics {
 	}
 
 	public mount(): Application {
-		
+
 		console.log('Booting the Statics middleware...');
 
 		// Load Statics
@@ -26,10 +25,10 @@ class Statics {
 
 		// Load NPM Statics
 		// this.express.use(express.static(path.join(__dirname, '../../node_modules')));
-	
+
 		return this.express;
 	}
-    
+
 }
 
 export default Statics;

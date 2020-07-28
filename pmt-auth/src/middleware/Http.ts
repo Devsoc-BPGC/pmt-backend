@@ -24,7 +24,6 @@ class Http {
 		this.express.use(bodyParser.json());
 		this.express.use(bodyParser.urlencoded({ extended: true }));
 		this.express.use(passport.initialize());
-
 		this.express.use((req, res, next): void => {
 			res.header('Access-Control-Allow-Origin', '*');
 			res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept'); // cors header
