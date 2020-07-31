@@ -3,12 +3,17 @@ import {
 	PrimaryGeneratedColumn,
 	Column,
 	JoinColumn,
+	JoinTable,
 	OneToOne,
 	CreateDateColumn,
 	UpdateDateColumn,
-	Timestamp
+	Timestamp,
+	ManyToMany
 } from 'typeorm';
 import { Github } from './Github';
+import { Project } from './Project';
+import { Taskboard } from './Taskboard';
+import { Card } from './Card';
 
 export enum UserRole {
 	COORDI = 'coordi',
@@ -16,7 +21,7 @@ export enum UserRole {
 	CREW = 'crew'
 }
 
-@Entity()
+@Entity({name: 'users'})
 export class Users {
 	@PrimaryGeneratedColumn()
 	id: number | undefined;
@@ -52,4 +57,20 @@ export class Users {
 
 	@UpdateDateColumn()
 	updated_at: Timestamp | undefined;
+
+	@ManyToMany((type) => Project, project => project.members, {
+		cascade: true
+	})
+	projects: Project[] | undefined;
+
+	@ManyToMany(type => Taskboard, board => board.members, {
+		cascade: true
+	})
+	boards: Taskboard[] | undefined;
+
+	@ManyToMany(type => Card, card => card.members, {
+		cascade: true
+	})
+	cards: Card[] | undefined;
+
 }

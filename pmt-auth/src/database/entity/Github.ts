@@ -1,6 +1,6 @@
 import { Entity, PrimaryColumn, Column } from 'typeorm';
 
-@Entity()
+@Entity({ name: 'github'})
 export class Github {
 
     @PrimaryColumn('text')

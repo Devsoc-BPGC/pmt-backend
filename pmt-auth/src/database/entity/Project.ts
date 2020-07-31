@@ -6,9 +6,13 @@ import {
 	ManyToOne,
 	CreateDateColumn,
 	UpdateDateColumn,
-	Timestamp
+	Timestamp,
+	OneToMany,
+	ManyToMany,
+	JoinTable
 } from 'typeorm';
 import { Users } from './User';
+import { Taskboard } from './Taskboard';
 
 @Entity({name: 'projects'})
 export class Project {
@@ -37,9 +41,16 @@ export class Project {
 	@JoinColumn()
 	created_by: Users | undefined;
 
+	@OneToMany((type) => Taskboard, taskboard => taskboard.project)
+	boards: Taskboard[] | undefined;
+
 	@CreateDateColumn()
 	created_time: Timestamp | undefined;
 
 	@UpdateDateColumn()
 	updated_time: Timestamp | undefined;
+
+	@ManyToMany((type) => Users, user => user.projects)
+	@JoinTable()
+	members: Users[] | undefined;
 }
