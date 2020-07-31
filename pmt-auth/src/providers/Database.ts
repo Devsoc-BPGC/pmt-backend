@@ -22,19 +22,21 @@ export default class Database {
             password: 'eatsleepcode',
             database: 'mello',
             entities: [
-                '**/*.database/entity/**/*.{js, ts}'
+                'build/database/entity/**/*.js'
                 ],
                 migrations: [
-                '**/*.database/migrations/**/*.{js, ts}'
+                'build/database/migrations/**/*.js'
                 ],
                 subscribers: [
-                '**/*.database/subscribers/**/*.{js, ts}'
+                'build/database/subscribers/**/*.js'
                 ],
                 cli: {
-                'entitiesDir': 'src/database/entity/**/*.ts',
-                'migrationsDir': 'src/database/migration/**/*.ts',
-                'subscribersDir': 'src/database/subscribers/**/*.ts'
-            }
+                'entitiesDir': 'build/database/entity/**/*.js',
+                'migrationsDir': 'build/database/migrations/**/*.js',
+                'subscribersDir': 'build/database/subscribers/**/*.js'
+            },
+            synchronize: false
+            // Set to true when not using migrations
         });
         console.log('Hey, the database is listening on PORT: 5432');
         /* let user = new Users;
