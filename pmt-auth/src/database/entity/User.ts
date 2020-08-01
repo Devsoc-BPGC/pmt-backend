@@ -1,62 +1,76 @@
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import {
+	Entity,
+	PrimaryGeneratedColumn,
+	Column,
+	JoinColumn,
+	JoinTable,
+	OneToOne,
+	CreateDateColumn,
+	UpdateDateColumn,
+	Timestamp,
+	ManyToMany
+} from 'typeorm';
+import { Github } from './Github';
+import { Project } from './Project';
+import { Taskboard } from './Taskboard';
+import { Card } from './Card';
 
-@Entity()
+export enum UserRole {
+	COORDI = 'coordi',
+	CORE = 'core',
+	CREW = 'crew'
+}
+
+@Entity({name: 'users'})
 export class Users {
+	@PrimaryGeneratedColumn()
+	id: number | undefined;
 
-    @PrimaryGeneratedColumn()
-    id: number | undefined;
+	@Column('varchar')
+	name: string | undefined;
 
-    @Column('text')
-    login: string | undefined;
+	@Column({ type: 'varchar', unique: true })
+	email: string | undefined;
 
-    @Column('text')
-    avatar_url: string | undefined;
+	@Column({ type: 'text', nullable: true })
+	avatar_url: string | undefined;
 
-    @Column('text')
-    html_url: string | undefined;
+	@Column({
+		type: 'enum',
+		enum: UserRole,
+		default: UserRole.CREW
+	})
+	org_role: UserRole | undefined;
 
-    @Column('text')
-    repos_url: string | undefined;
+	@Column({
+		type: 'text',
+		unique: true
+	})
+	github_username: string | undefined;
 
-    @Column('text')
-    name: string | undefined;
+	@OneToOne((type) => Github)
+	@JoinColumn()
+	github: Github | undefined;
 
-    @Column('text')
-    company: string | undefined;
+	@CreateDateColumn()
+	created_at: Timestamp | undefined;
 
-    @Column('text')
-    blog: string | undefined;
+	@UpdateDateColumn()
+	updated_at: Timestamp | undefined;
 
-    @Column('text')
-    location: string | undefined;
+	@ManyToMany((type) => Project, project => project.members, {
+		cascade: true
+	})
+	projects: Project[] | undefined;
 
-    @Column('text')
-    email: string | undefined;
+	@ManyToMany(type => Taskboard, board => board.members, {
+		cascade: true
+	})
+	boards: Taskboard[] | undefined;
 
-    @Column('text')
-    bio: string | undefined;
+	@ManyToMany(type => Card, card => card.members, {
+		cascade: true
+	})
+	cards: Card[] | undefined;
 
-    @Column('text')
-    twitter_username: string | undefined;
-
-	@Column('int')
-    public_repos: number | undefined;
-
-    @Column('int')
-    public_gists: number | undefined;
-
-    @Column('int')
-    followers: number | undefined;
-
-    @Column('int')
-    following: number | undefined;
-
-    @Column('int')
-    private_gists: number | undefined;
-
-    @Column('int')
-    total_private_repos: number | undefined;
-
-    @Column('int')
-    owned_private_repos: number | undefined;
 }
