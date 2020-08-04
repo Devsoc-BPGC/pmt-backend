@@ -1,8 +1,0 @@
-node_modules/
-.env
-build
-npm-debug.log
-.DS_Store
-redis.conf
-redis-data
-logs/
