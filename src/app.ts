@@ -31,18 +31,26 @@ class App {
 				/**
 				 * Run the server on clusters.
 				 */
-				await app.loadDatabase();
-				app.loadPassport();
-				app.loadServer();
+				try {
+					await app.loadDatabase();
+					app.loadPassport();
+					await app.loadServer();
 
-				console.log(`Worker ${process.pid} started`);
+					console.log(`Worker ${process.pid} started`);
+				} catch (err) {
+					console.log(err);
+				}
 			}
 		} else {
-			await app.loadDatabase();
-			app.loadPassport();
-			app.loadServer();
+			try {
+				await app.loadDatabase();
+				app.loadPassport();
+				await app.loadServer();
 
-			console.log(`Worker ${process.pid} started`);
+				console.log(`Worker ${process.pid} started`);
+			} catch (err) {
+				console.log(err);
+			}
 		}
 	}
 }

@@ -8,6 +8,7 @@ import * as express from 'express';
 
 import Kernel from '../middleware/Kernel';
 import ErrorHandler from '../api/middleware/errorhandler';
+import Locals from '../config/Locals';
 
 class Express {
 	/**
@@ -18,11 +19,6 @@ class Express {
 
 	constructor() {
 		this.express = express();
-
-		this.mountEnv();
-		this.mountMiddleware();
-		this.mountRoutes();
-		this.mountErrors();
 	}
 
 	/**
@@ -30,21 +26,15 @@ class Express {
      */
 	private mountEnv(): void {
 		// Load the env file here.
+		this.express = Locals.init(this.express);
 	}
 
 	/**
      * mountMiddleware: For adding middlewares
      */
-	private mountMiddleware(): void {
+	private mountMiddleware(): Promise<express.Application> {
 		// Load your middlewares here
-		this.express = new Kernel(this.express).init();
-	}
-
-	/**
-     * mountRoutes: For adding routes
-     */
-	private mountRoutes(): void {
-		// Load your routes here
+		return new Kernel(this.express).init();
 	}
 
 	/**
@@ -59,8 +49,12 @@ class Express {
 	/**
      * init
      */
-	public init(PORT: string): void {
+	public async init(PORT: string): Promise<void> {
 		const port = PORT;
+
+		this.mountEnv();
+		await this.mountMiddleware();
+		this.mountErrors();
 
 		this.express.listen(port, (): void => {
 			console.log(`The server is listening on PORT:${port}`);

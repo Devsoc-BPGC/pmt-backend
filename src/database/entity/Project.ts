@@ -9,48 +9,62 @@ import {
 	Timestamp,
 	OneToMany,
 	ManyToMany,
-	JoinTable
+	JoinTable,
+	BaseEntity
 } from 'typeorm';
 import { Users } from './User';
 import { Taskboard } from './Taskboard';
 
-@Entity({name: 'projects'})
-export class Project {
-	@PrimaryGeneratedColumn()
-	id: number | undefined;
+import { ObjectType, Field, ID } from 'type-graphql';
 
-   @Column({
+@Entity({name: 'projects'})
+@ObjectType()
+export class Project extends BaseEntity {
+	@PrimaryGeneratedColumn()
+	@Field(() => ID)
+	id?: number;
+
+    @Column({
       type: 'varchar',
       unique: true
-   })
-	name: string | undefined;
+	})
+	@Field()
+	name?: string;
 
 	@Column('text')
-	description: string | undefined;
+	@Field()
+	description?: string;
 
 	@Column('int')
-	chat_channel_id: number | undefined;
+	@Field()
+	chat_channel_id?: number;
 
 	@Column({
 		type: 'int',
 		unique: true
 	})
-	created_by_id: number | undefined;
+	@Field()
+	created_by_id?: number;
 
 	@ManyToOne((type) => Users)
 	@JoinColumn()
-	created_by: Users | undefined;
+	@Field(() => Users)
+	created_by?: Users;
 
 	@OneToMany((type) => Taskboard, taskboard => taskboard.project)
-	boards: Taskboard[] | undefined;
+	@Field(() => [Taskboard])
+	boards?: Taskboard[];
 
-	@CreateDateColumn()
-	created_time: Timestamp | undefined;
+	@CreateDateColumn({ nullable: false })
+	@Field()
+	created_time?: Date;
 
-	@UpdateDateColumn()
-	updated_time: Timestamp | undefined;
+	@UpdateDateColumn({ nullable: false })
+	@Field()
+	updated_time?: Date;
 
 	@ManyToMany((type) => Users, user => user.projects)
 	@JoinTable()
-	members: Users[] | undefined;
+	@Field(() => [Users])
+	members?: Users[];
 }

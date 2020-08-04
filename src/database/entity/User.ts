@@ -7,13 +7,15 @@ import {
 	OneToOne,
 	CreateDateColumn,
 	UpdateDateColumn,
-	Timestamp,
-	ManyToMany
+	ManyToMany,
+	BaseEntity
 } from 'typeorm';
 import { Github } from './Github';
 import { Project } from './Project';
 import { Taskboard } from './Taskboard';
 import { Card } from './Card';
+
+import { ObjectType, Field, ID } from 'type-graphql';
 
 export enum UserRole {
 	COORDI = 'coordi',
@@ -22,55 +24,68 @@ export enum UserRole {
 }
 
 @Entity({name: 'users'})
-export class Users {
+@ObjectType()
+export class Users extends BaseEntity {
 	@PrimaryGeneratedColumn()
-	id: number | undefined;
+	@Field(() => ID)
+	id?: number;
 
 	@Column('varchar')
-	name: string | undefined;
+	@Field()
+	name?: string;
 
 	@Column({ type: 'varchar', unique: true })
-	email: string | undefined;
+	@Field()
+	email?: string;
 
 	@Column({ type: 'text', nullable: true })
-	avatar_url: string | undefined;
+	@Field()
+	avatar_url?: string;
 
 	@Column({
 		type: 'enum',
 		enum: UserRole,
 		default: UserRole.CREW
 	})
-	org_role: UserRole | undefined;
+	@Field()
+	org_role?: UserRole;
 
 	@Column({
 		type: 'text',
 		unique: true
 	})
-	github_username: string | undefined;
+	@Field()
+	github_username?: string;
 
 	@OneToOne((type) => Github)
 	@JoinColumn()
-	github: Github | undefined;
+	@Field(() => Github)
+	github?: Github;
 
-	@CreateDateColumn()
-	created_at: Timestamp | undefined;
+	@CreateDateColumn({ nullable: false })
+	@Field()
+	created_at?: Date;
 
-	@UpdateDateColumn()
-	updated_at: Timestamp | undefined;
+	@UpdateDateColumn({ nullable: false })
+	@Field()
+	updated_at?: Date;
 
 	@ManyToMany((type) => Project, project => project.members, {
 		cascade: true
 	})
-	projects: Project[] | undefined;
+	@Field(() => [Project])
+	projects?: Project[];
 
 	@ManyToMany(type => Taskboard, board => board.members, {
 		cascade: true
 	})
-	boards: Taskboard[] | undefined;
+	@Field(() => [Taskboard])
+	boards?: Taskboard[];
 
 	@ManyToMany(type => Card, card => card.members, {
 		cascade: true
 	})
-	cards: Card[] | undefined;
+	@Field(() => [Card])
+	cards?: Card[];
 
 }

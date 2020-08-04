@@ -1,6 +1,6 @@
 import { Repository, EntityRepository, getCustomRepository } from 'typeorm';
-import { Card } from '../entity/Card';
-import { Users } from '../entity/User';
+import { Card } from '../database/entity/Card';
+import { Users } from '../database/entity/User';
 import { UserRepository } from './User';
 
 @EntityRepository(Card)

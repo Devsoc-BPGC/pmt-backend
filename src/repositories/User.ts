@@ -1,9 +1,10 @@
 import { EntityRepository, Repository } from 'typeorm';
-import { Users } from '../entity/User';
-import { Taskboard } from '../entity/Taskboard';
-import { Project } from '../entity/Project';
-import { Card } from '../entity/Card';
-import { Github } from '../entity/Github';
+import { Users } from '../database/entity/User';
+import { Taskboard } from '../database/entity/Taskboard';
+import { Project } from '../database/entity/Project';
+import { Card } from '../database/entity/Card';
+import { Github } from '../database/entity/Github';
+import { User } from '../interfaces/models/User';
 
 @EntityRepository(Users)
 export class UserRepository extends Repository<Users> {
@@ -44,6 +45,13 @@ export class UserRepository extends Repository<Users> {
 		if (user) {
 			user.github = profile;
 			await this.save(user);
+			return user;
+		}
+	}
+
+	async addUser(users: User): Promise<Users|void> {
+		const user = await this.save(users);
+		if (user) {
 			return user;
 		}
 	}

@@ -21,8 +21,12 @@ export class App {
 	/**
      * Load the server
      */
-	public loadServer() {
-		Express.init(this.PORT);
+	public async loadServer() {
+		try {
+			await Express.init(this.PORT);
+		} catch (err) {
+			throw new Error(err);
+		}
 	}
 
 	/**
