@@ -1,62 +1,83 @@
-import { Entity, PrimaryColumn, Column } from 'typeorm';
+import { Entity, PrimaryColumn, Column, BaseEntity } from 'typeorm';
+import { ObjectType, Field, ID } from 'type-graphql';
 
 @Entity({ name: 'github'})
-export class Github {
+@ObjectType()
+export class Github extends BaseEntity {
 
     @PrimaryColumn('text')
-    username: string | undefined;
+	@Field(() => ID)
+    username?: string;
 
     @Column('text')
-    login: string | undefined;
+    @Field()
+    login?: string;
 
     @Column('text')
-    avatar_url: string | undefined;
+    @Field()
+    avatar_url?: string;
 
     @Column('text')
-    html_url: string | undefined;
+    @Field()
+    html_url?: string;
 
     @Column('text')
-    repos_url: string | undefined;
+    @Field()
+    repos_url?: string;
 
     @Column('text')
-    name: string | undefined;
+    @Field()
+    name?: string;
 
     @Column('text')
-    company: string | undefined;
+    @Field()
+    company?: string;
 
     @Column('text')
-    blog: string | undefined;
+    @Field()
+    blog?: string;
 
     @Column('text')
-    location: string | undefined;
+    @Field()
+    location?: string;
 
     @Column('text')
-    email: string | undefined;
+    @Field()
+    email?: string;
 
     @Column('text')
-    bio: string | undefined;
+    @Field()
+    bio?: string;
 
     @Column('text')
-    twitter_username: string | undefined;
-
-	@Column('int')
-    public_repos: number | undefined;
+    @Field()
+    twitter_username?: string;
 
     @Column('int')
-    public_gists: number | undefined;
+    @Field()
+    public_repos?: number;
 
     @Column('int')
-    followers: number | undefined;
+    @Field()
+    public_gists?: number;
 
     @Column('int')
-    following: number | undefined;
+    @Field()
+    followers?: number;
 
     @Column('int')
-    private_gists: number | undefined;
+    @Field()
+    following?: number;
 
     @Column('int')
-    total_private_repos: number | undefined;
+    @Field()
+    private_gists?: number;
 
     @Column('int')
-    owned_private_repos: number | undefined;
+    @Field()
+    total_private_repos?: number;
+
+    @Column('int')
+    @Field()
+    owned_private_repos?: number;
 }

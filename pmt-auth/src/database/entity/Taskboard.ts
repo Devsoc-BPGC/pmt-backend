@@ -6,51 +6,66 @@ import {
 	CreateDateColumn,
 	Timestamp,
 	ManyToOne,
-   JoinColumn,
-   ManyToMany,
-   JoinTable,
-   OneToMany
+    JoinColumn,
+    ManyToMany,
+    JoinTable,
+    OneToMany,
+	BaseEntity
 } from 'typeorm';
 
 import { Project } from './Project';
 import { Users } from './User';
 import { Card } from './Card';
 
+import { ObjectType, Field, ID } from 'type-graphql';
+
 @Entity({ name: 'taskboards'})
-export class Taskboard {
+@ObjectType()
+export class Taskboard extends BaseEntity {
 	@PrimaryGeneratedColumn()
-	id: number | undefined;
+	@Field(() => ID)
+	id?: number;
 
 	@Column('varchar')
-	name: string | undefined;
+	@Field()
+	name?: string;
 
 	@Column('text')
-	description: string | undefined;
+	@Field()
+	description?: string;
 
 	@Column('text')
-	github_repo_url: string | undefined;
+	@Field()
+	github_repo_url?: string;
 
 	@CreateDateColumn()
-	created_at: Timestamp | undefined;
+	@Field()
+	created_at?: Date;
 
 	@UpdateDateColumn()
-	updated_at: Timestamp | undefined;
+	@Field()
+	updated_at?: Date;
 
 	@Column('int')
-	chat_channel_id: number | undefined;
+	@Field()
+	chat_channel_id?: number;
 
 	@ManyToOne((type) => Project, project => project.boards)
-   project: Project | undefined;
+	@Field(() => [Project])
+    project?: Project;
 
-   @ManyToOne((type) => Users)
-   @JoinColumn()
-   created_by: Users | undefined;
+    @ManyToOne((type) => Users)
+	@JoinColumn()
+	@Field(() => [Users])
+    created_by?: Users;
 
-   @ManyToMany(type => Users, user => user.boards)
-   @JoinTable()
-   members: Users[] | undefined;
+    @ManyToMany(type => Users, user => user.boards)
+	@JoinTable()
+	@Field(() => [Users])
+    members?: Users[];
 
-   @OneToMany(type => Card, card => card.board)
-   cards: Card[] | undefined;
+	@OneToMany(type => Card, card => card.board)
+	@Field(() => [Card])
+    cards?: Card[];
 
 }

@@ -14,6 +14,8 @@ import {
 import { Taskboard } from './Taskboard';
 import { Users } from './User';
 
+import { ObjectType, Field, ID } from 'type-graphql';
+
 export enum CardStatus {
    ONGOING = 'ongoing',
    TODO = 'todo',
@@ -21,49 +23,62 @@ export enum CardStatus {
 }
 
 @Entity({name: 'cards'})
+@ObjectType()
 export class Card {
-	@PrimaryGeneratedColumn()
-   id: number | undefined;
+   @PrimaryGeneratedColumn()
+   @Field(() => ID)
+   id?: number;
 
    @Column('text')
-   title: string | undefined;
+   @Field()
+   title?: string;
 
    @Column('text')
-   description: string | undefined;
+   @Field()
+   description?: string;
 
    @CreateDateColumn()
-   created_at: Timestamp | undefined;
+   @Field()
+   created_at?: Date;
 
    @UpdateDateColumn()
-   updated_at: Timestamp | undefined;
+   @Field()
+   updated_at?: Date;
 
    @ManyToOne((type) => Taskboard, board => board.cards)
-   board: Taskboard | undefined;
+   @Field(() => Taskboard)
+   board?: Taskboard;
 
    @ManyToOne((type) => Users)
    @JoinColumn()
-   created_by: Users | undefined;
+   @Field(() => Users)
+   created_by?: Users;
 
    @Column('text', { array: true, nullable: true })
-   labels: string[] | undefined;
+   @Field(() => [String])
+   labels?: string[];
 
    @Column({
       type: 'enum',
       enum: CardStatus,
       default: CardStatus.TODO
    })
-   card_status: CardStatus | undefined;
+   @Field()
+   card_status?: CardStatus;
 
    @ManyToMany(type => Users, user => user.cards)
    @JoinTable()
-   members: Users[] | undefined;
+   @Field(() => [Users])
+   members?: Users[];
 
    @Column({
       type: 'timestamp',
       nullable: true
    })
-   completed_at: Timestamp | undefined;
+   @Field()
+   completed_at?: Date;
 
    @Column('timestamp')
-   deadline: Timestamp | undefined;
+   @Field()
+   deadline?: Date;
 }
