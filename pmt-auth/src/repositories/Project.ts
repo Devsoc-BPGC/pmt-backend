@@ -1,8 +1,8 @@
 import { Repository, EntityRepository, getCustomRepository } from 'typeorm';
-import { Project } from '../entity/Project';
-import { Users } from '../entity/User';
+import { Project } from '../database/entity/Project';
+import { Users } from '../database/entity/User';
 import { UserRepository } from './User';
-import { Taskboard } from '../entity/Taskboard';
+import { Taskboard } from '../database/entity/Taskboard';
 
 @EntityRepository(Project)
 export class ProjectRepository extends Repository<Project> {
