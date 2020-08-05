@@ -18,7 +18,19 @@ Project Management Tool is a platform for the efficient management and communica
 - [Contributors ❤](#contributors)
 
 ## Quick Start
+#### 1. Fork the project and then clone it into desired directory.
+```
+git clone https://github.com/YOUR_USERNAME/pmt-backend.git
+```
 
+#### 2. Run docker-compose to start your client and server
+```
+docker-compose up
+```
+If there is change in **package.json** then we will need to use this command:
+```
+docker-compose up --build
+```
 ## Documentation
 
 ## File Structure
