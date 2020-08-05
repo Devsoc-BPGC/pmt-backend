@@ -6,7 +6,7 @@ import { Application } from 'express';
 import { GraphQLSchema } from 'graphql';
 
 import { RegisterResolver } from '../resolvers/register';
-import { newProjectResolver } from '../resolvers/newProject';
+import { NewProjectResolver } from '../resolvers/NewProject';
 
 export default class GraphQlServer {
     public express: Application;
@@ -17,7 +17,7 @@ export default class GraphQlServer {
 
     public async mount(): Promise<Application> {
         const schema: GraphQLSchema = await buildSchema({
-            resolvers: [RegisterResolver,newProjectResolver]
+            resolvers: [RegisterResolver, NewProjectResolver]
         });
         const server: ApolloServer = new ApolloServer({ schema });
         server.applyMiddleware({ app: this.express });
