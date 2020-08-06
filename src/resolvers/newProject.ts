@@ -1,14 +1,14 @@
 import { Resolver, Mutation, Arg} from 'type-graphql';
-import { AddProject } from "../repositories/AddProject"
-import{ NewProject } from '../database/entity/NewProject';
+import {ProjectRepository } from '../repositories/Project'
+import{ Project } from '../database/entity/Project';
 
 @Resolver()
 export class NewProjectResolver {
-    @Mutation(() => NewProject)
-    async project(@Arg('project'){projectName}:AddProject)
-    : Promise<NewProject> {
-        const proj = await NewProject.create({
-            projectName
+    @Mutation(() => Project)
+    async project(@Arg('project'){name}:ProjectRepository)
+    : Promise<Project> {
+        const proj = await Project.create({
+            name
         }).save();
         return proj;
     }

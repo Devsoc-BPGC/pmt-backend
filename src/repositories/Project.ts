@@ -1,9 +1,11 @@
-import { Repository, EntityRepository, getCustomRepository } from 'typeorm';
+import { Repository, EntityRepository, getCustomRepository, In } from 'typeorm';
 import { Project } from '../database/entity/Project';
 import { Users } from '../database/entity/User';
 import { UserRepository } from './User';
 import { Taskboard } from '../database/entity/Taskboard';
+import {Field, InputType} from 'type-graphql';
 
+@InputType()
 @EntityRepository(Project)
 export class ProjectRepository extends Repository<Project> {
 
@@ -56,4 +58,8 @@ export class ProjectRepository extends Repository<Project> {
 			}
 		});
 	}
+
+	@Field()
+    name!: string;
+
 }
