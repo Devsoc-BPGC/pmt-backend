@@ -2,6 +2,8 @@ import { Resolver, Query, Mutation, Arg, FieldResolver, Root } from 'type-graphq
 
 import { Users } from '../database/entity/User';
 import { UserRepository } from '../repositories/User';
+import {ProjectRepository } from '../repositories/Project';
+import{ Project } from '../database/entity/Project';
 
 @Resolver(Users)
 export class RegisterResolver {
@@ -30,4 +32,15 @@ export class RegisterResolver {
 
     return user;
   }
+}
+@Resolver()
+export class NewProjectResolver {
+    @Mutation(() => Project)
+    async project(@Arg('project'){name}: ProjectRepository)
+    : Promise<Project> {
+        const proj = await Project.create({
+            name
+        }).save();
+        return proj;
+    }
 }

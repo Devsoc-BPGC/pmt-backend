@@ -5,8 +5,7 @@ import { createConnection } from 'typeorm';
 import { Application } from 'express';
 import { GraphQLSchema } from 'graphql';
 
-import { RegisterResolver } from '../resolvers/register';
-import { NewProjectResolver } from '../resolvers/NewProject';
+import { RegisterResolver, NewProjectResolver } from '../resolvers/register';
 
 export default class GraphQlServer {
     public express: Application;
