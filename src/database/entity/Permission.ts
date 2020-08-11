@@ -4,10 +4,11 @@ import {
 	Column,
 	CreateDateColumn,
 	UpdateDateColumn,
-   BaseEntity
+   BaseEntity,
+   PrimaryGeneratedColumn
 } from 'typeorm';
 
-import { ObjectType, Field } from 'type-graphql';
+import { ObjectType, Field, ID } from 'type-graphql';
 import { Users } from './User';
 
 export enum PermissionStatus {
@@ -30,6 +31,10 @@ export enum Role {
 @Entity({ name: 'permissions' })
 @ObjectType()
 export class Permission extends BaseEntity {
+
+   @PrimaryGeneratedColumn()
+   @Field(() => ID)
+   id?: number;
 
    @Column('integer')
    @Field()

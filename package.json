@@ -5,8 +5,8 @@
   "main": "app.js",
   "scripts": {
     "build": "tsc --project './tsconfig.json'",
-    "start:dev": "tsc --project './tsconfig.json' --watch & NODE_ENV=development nodemon build/app.js",
-    "start:prod": "tsc --project './tsconfig.json' --watch & NODE_ENV=development node build/app.js",
+    "start:dev": "tsc --project './tsconfig.json' --watch & NODE_ENV=development nodemon pmt-auth/build/app.js",
+    "start:prod": "tsc --project './tsconfig.json' --watch & NODE_ENV=development node pmt-auth/build/app.js",
     "lint": "tslint --project tsconfig.json",
     "test": "jest --passWithNoTests"
   },
