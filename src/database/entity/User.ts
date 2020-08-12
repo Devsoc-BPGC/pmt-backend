@@ -8,12 +8,14 @@ import {
 	CreateDateColumn,
 	UpdateDateColumn,
 	ManyToMany,
-	BaseEntity
+	BaseEntity,
+	OneToMany
 } from 'typeorm';
 import { Github } from './Github';
 import { Project } from './Project';
 import { Taskboard } from './Taskboard';
 import { Card } from './Card';
+import { Permission } from './Permission';
 
 import { ObjectType, Field, ID } from 'type-graphql';
 
@@ -88,4 +90,9 @@ export class Users extends BaseEntity {
 	@Field(() => [Card])
 	cards?: Card[];
 
+	@OneToMany((type) => Permission, permission => permission.user, {
+		cascade: true
+	})
+	@Field(() => [Permission])
+	permissions?: Permission[];
 }
