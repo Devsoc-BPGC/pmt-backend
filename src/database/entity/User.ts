@@ -30,17 +30,17 @@ export enum UserRole {
 export class Users extends BaseEntity {
 	@PrimaryGeneratedColumn()
 	@Field(() => ID)
-	id?: number;
+	id!: number;
 
 	@Column('varchar')
 	@Field()
-	name?: string;
+	name!: string;
 
 	@Column({ type: 'varchar', unique: true })
 	@Field()
-	email?: string;
+	email!: string;
 
-	@Column({ type: 'text', nullable: true })
+	@Column({ type: 'text', nullable: true, default: '' })
 	@Field()
 	avatar_url?: string;
 
@@ -57,11 +57,11 @@ export class Users extends BaseEntity {
 		unique: true
 	})
 	@Field()
-	github_username?: string;
+	github_username!: string;
 
 	@OneToOne((type) => Github)
 	@JoinColumn()
-	@Field(() => Github)
+	// @Field(() => Github)
 	github?: Github;
 
 	@CreateDateColumn({ nullable: false })
@@ -75,24 +75,24 @@ export class Users extends BaseEntity {
 	@ManyToMany((type) => Project, project => project.members, {
 		cascade: true
 	})
-	@Field(() => [Project])
+	// @Field(() => [Project])
 	projects?: Project[];
 
 	@ManyToMany(type => Taskboard, board => board.members, {
 		cascade: true
 	})
-	@Field(() => [Taskboard])
+	// @Field(() => [Taskboard])
 	boards?: Taskboard[];
 
 	@ManyToMany(type => Card, card => card.members, {
 		cascade: true
 	})
-	@Field(() => [Card])
+	// @Field(() => [Card])
 	cards?: Card[];
 
 	@OneToMany((type) => Permission, permission => permission.user, {
 		cascade: true
 	})
-	@Field(() => [Permission])
+	// @Field(() => [Permission])
 	permissions?: Permission[];
 }
