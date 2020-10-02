@@ -22,37 +22,36 @@ import { ObjectType, Field, ID } from 'type-graphql';
 export class Project extends BaseEntity {
 	@PrimaryGeneratedColumn()
 	@Field(() => ID)
-	id?: number;
+	id!: number;
 
     @Column({
       type: 'varchar',
       unique: true
 	})
 	@Field()
-	name?: string;
+	name!: string;
 
 	@Column('text')
 	@Field()
-	description?: string;
+	description!: string;
 
-	@Column('int')
-	@Field()
-	chat_channel_id?: number;
+	// @Column('int')
+	// @Field()
+	// chat_channel_id?: number;
 
 	@Column({
-		type: 'int',
-		unique: true
+		type: 'int'
 	})
-	@Field()
-	created_by_id?: number;
+	// @Field()
+	created_by_id!: number;
 
 	@ManyToOne((type) => Users)
 	@JoinColumn()
-	@Field(() => Users)
+	// @Field(() => Users)
 	created_by?: Users;
 
 	@OneToMany((type) => Taskboard, taskboard => taskboard.project)
-	@Field(() => [Taskboard])
+	// @Field(() => [Taskboard])
 	boards?: Taskboard[];
 
 	@CreateDateColumn({ nullable: false })
@@ -65,6 +64,6 @@ export class Project extends BaseEntity {
 
 	@ManyToMany((type) => Users, user => user.projects)
 	@JoinTable()
-	@Field(() => [Users])
+	// @Field(() => [Users])
 	members?: Users[];
 }
