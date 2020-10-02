@@ -9,7 +9,7 @@ import { User } from '../interfaces/models/User';
 @EntityRepository(Users)
 export class UserRepository extends Repository<Users> {
 	findByEmail(email: string): Promise<Users|undefined> {
-      return this.findOne({email: email});
+		return this.findOne({email: email});
 	}
 
 	async findProjectsForUser(id: number): Promise<Project[]> {
@@ -49,10 +49,7 @@ export class UserRepository extends Repository<Users> {
 		}
 	}
 
-	async addUser(users: User): Promise<Users|void> {
-		const user = await this.save(users);
-		if (user) {
-			return user;
-		}
+	async addUser(user: Users): Promise<Users> {
+		return this.save(user);
 	}
 }

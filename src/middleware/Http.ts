@@ -65,7 +65,7 @@ class Http {
 			}
 		  );
 
-		this.express.use('/', (req, res): void => {
+		this.express.get('/', (req, res): void => {
 			console.log('Welcome to the app');
 			res.status(200).json({
 				'success': true,
