@@ -35,18 +35,18 @@ export class ProjectRepository extends Repository<Project> {
 		return project!;
 	}
 
-	async addMemberToProject(user_id: number, project_id: number): Promise<void> {
+	async addMemberToProject(user_id: number, project: Project): Promise<void> {
 		const userRepo = getCustomRepository(UserRepository);
-		const user = await userRepo.findOne(user_id);
+		const user = await userRepo.findOne(user_id, {
+			relations: ['projects']
+		});
 		if (user) {
-			const project = await this.findOne(project_id);
-			if (project) {
-				project.members?.push(user);
-			}
+			user.projects?.push(project);
+			userRepo.save(user);
 		}
 	}
 
-	findByName(name: string): Promise<Project|undefined> {
+	findByName(name: string): Promise<Project|void> {
 		return this.findOne({ name: name });
 	}
 	findByCreator(user: Users): Promise<Project[]> {

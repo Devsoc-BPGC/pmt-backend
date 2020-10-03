@@ -10,7 +10,9 @@ import {
 	Field
 } from 'type-graphql';
 import { getCustomRepository } from 'typeorm';
+import { Project } from '../database/entity/Project';
 import { UserRole, Users } from '../database/entity/User';
+import { User } from '../interfaces/models/User';
 import { UserRepository } from '../repositories/User';
 
 @InputType()
@@ -46,8 +48,13 @@ export class UserResolver {
 	}
 
 	@Query((id) => Users)
-	async userInfo(@Arg('user_id') userId: string): Promise<Users> {
+	async userInfo(@Arg('user_id') userId: number): Promise<Users> {
 		const user = await this.UserRepo.findOne(userId);
 		return user!;
+	}
+
+	@FieldResolver(type => [Project])
+	async projects(@Root() user: User): Promise<Project[]> {
+		return this.UserRepo.findProjectsForUser(user.id);
 	}
 }
