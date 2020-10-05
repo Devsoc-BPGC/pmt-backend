@@ -7,34 +7,45 @@ import { Users } from '../database/entity/User';
 
 @EntityRepository(Taskboard)
 export class TaskboardRepository extends Repository<Taskboard> {
-   async findCardsForBoard(id: number): Promise<Card[]> {
+	async findCardsForBoard(id: number): Promise<Card[]> {
+		const board = await this.findOne(id, {
+			relations: ['cards']
+		});
+		return board!.cards!;
+	}
+
+	async findMembersOfBoard(id: number): Promise<Users[]> {
+		const board = await this.findOne(id, {
+			relations: ['members']
+		});
+		return board!.members!;
+   }
+
+   async findCreator(id: number): Promise<Users> {
       const board = await this.findOne(id, {
-         relations: ['cards']
+         relations: ['created_by']
       });
-      return board!.cards!;
+      return board?.created_by!;
    }
 
-   async findMembersOfBoard(id: number): Promise<Users[]> {
-      const board = await this.findOne(id, {
-         relations: ['members']
-      });
-      return board!.members!;
-   }
+	async addMemberToTaskBoard(
+		user_id: number,
+		board: Taskboard
+	): Promise<void> {
+		const userRepo = getCustomRepository(UserRepository);
+		const user = await userRepo.findOne(user_id, {
+			relations: ['boards']
+		});
+		if (user) {
+			user.boards?.push(board);
+			await userRepo.save(user);
+		}
+	}
 
-   async addMemberToTaskBoard(user_id: number, board_id: number): Promise<void> {
-      const userRepo = getCustomRepository(UserRepository);
-      const user = await userRepo.findOne(user_id);
-      if (user) {
-         const board = await this.findOne(board_id);
-         if (board) {
-            board.members?.push(user);
-         }
-      }
-   }
-
-   findAllDetails(id: number): Promise<Taskboard|undefined> {
-      return this.findOne(id, {
-         relations: ['project', 'created_by', 'cards', 'members']
-      });
-   }
+	findAllDetails(id: number): Promise<Taskboard | void> {
+		const board = this.findOne(id, {
+			relations: ['project', 'created_by', 'cards', 'members']
+		});
+		return board!;
+	}
 }
