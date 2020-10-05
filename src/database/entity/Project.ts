@@ -39,16 +39,16 @@ export class Project extends BaseEntity {
 	// @Field()
 	// chat_channel_id?: number;
 
-	@Column({
-		type: 'int'
-	})
-	// @Field()
-	created_by_id!: number;
+	// @Column({
+	// 	type: 'int'
+	// })
+	// // @Field()
+	// created_by_id!: number;
 
 	@ManyToOne((type) => Users)
 	@JoinColumn()
 	// @Field(() => Users)
-	created_by?: Users;
+	created_by!: Users;
 
 	@OneToMany((type) => Taskboard, taskboard => taskboard.project)
 	// @Field(() => [Taskboard])
