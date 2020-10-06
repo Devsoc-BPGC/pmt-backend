@@ -10,9 +10,10 @@ import {
 	Field
 } from 'type-graphql';
 import { getCustomRepository } from 'typeorm';
+import { Card } from '../database/entity/Card';
 import { Project } from '../database/entity/Project';
+import { Taskboard } from '../database/entity/Taskboard';
 import { UserRole, Users } from '../database/entity/User';
-import { User } from '../interfaces/models/User';
 import { UserRepository } from '../repositories/User';
 
 @InputType()
@@ -54,7 +55,17 @@ export class UserResolver {
 	}
 
 	@FieldResolver(type => [Project])
-	async projects(@Root() user: User): Promise<Project[]> {
+	async projects(@Root() user: Users): Promise<Project[]> {
 		return this.UserRepo.findProjectsForUser(user.id);
+	}
+
+	@FieldResolver(type => [Card])
+	async cards(@Root() user: Users): Promise<Card[]> {
+		return this.UserRepo.findUserCards(user.id);
+	}
+
+	@FieldResolver(type => [Taskboard])
+	async boards(@Root() user: Users): Promise<Taskboard[]> {
+		return this.UserRepo.findBoardsForUser(user.id);
 	}
 }
