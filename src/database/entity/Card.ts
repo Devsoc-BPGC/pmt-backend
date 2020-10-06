@@ -22,20 +22,20 @@ export enum CardStatus {
    COMPLETED = 'completed'
 }
 
-@Entity({name: 'cards'})
+@Entity({ name: 'cards' })
 @ObjectType()
 export class Card {
    @PrimaryGeneratedColumn()
    @Field(() => ID)
-   id?: number;
+   id!: number;
 
    @Column('text')
    @Field()
-   title?: string;
+   title!: string;
 
    @Column('text')
    @Field()
-   description?: string;
+   description!: string;
 
    @CreateDateColumn()
    @Field()
@@ -46,16 +46,18 @@ export class Card {
    updated_at?: Date;
 
    @ManyToOne((type) => Taskboard, board => board.cards)
-   @Field(() => Taskboard)
+   // @Field(() => Taskboard)
    board?: Taskboard;
 
    @ManyToOne((type) => Users)
    @JoinColumn()
-   @Field(() => Users)
+   // @Field(() => Users)
    created_by?: Users;
 
    @Column('text', { array: true, nullable: true })
-   @Field(() => [String])
+   @Field(() => [String], {
+      nullable: true
+   })
    labels?: string[];
 
    @Column({
@@ -64,21 +66,21 @@ export class Card {
       default: CardStatus.TODO
    })
    @Field()
-   card_status?: CardStatus;
+   card_status!: CardStatus;
 
    @ManyToMany(type => Users, user => user.cards)
    @JoinTable()
-   @Field(() => [Users])
+   // @Field(() => [Users])
    members?: Users[];
 
    @Column({
       type: 'timestamp',
       nullable: true
    })
-   @Field()
+   // @Field()
    completed_at?: Date;
 
    @Column('timestamp')
-   @Field()
-   deadline?: Date;
+   // @Field()
+   deadline!: Date;
 }
