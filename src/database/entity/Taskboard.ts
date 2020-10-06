@@ -24,19 +24,19 @@ import { ObjectType, Field, ID } from 'type-graphql';
 export class Taskboard extends BaseEntity {
 	@PrimaryGeneratedColumn()
 	@Field(() => ID)
-	id?: number;
+	id!: number;
 
 	@Column('varchar')
 	@Field()
-	name?: string;
+	name!: string;
 
 	@Column('text')
 	@Field()
-	description?: string;
+	description!: string;
 
 	@Column('text')
 	@Field()
-	github_repo_url?: string;
+	github_repo_url!: string;
 
 	@CreateDateColumn()
 	@Field()
@@ -46,26 +46,26 @@ export class Taskboard extends BaseEntity {
 	@Field()
 	updated_at?: Date;
 
-	@Column('int')
-	@Field()
-	chat_channel_id?: number;
+	// @Column('int')
+	// @Field()
+	// chat_channel_id?: number;
 
 	@ManyToOne((type) => Project, project => project.boards)
-	@Field(() => [Project])
+	// @Field(() => [Project])
     project?: Project;
 
     @ManyToOne((type) => Users)
 	@JoinColumn()
-	@Field(() => [Users])
+	// @Field(() => [Users])
     created_by?: Users;
 
     @ManyToMany(type => Users, user => user.boards)
 	@JoinTable()
-	@Field(() => [Users])
+	// @Field(() => [Users])
     members?: Users[];
 
 	@OneToMany(type => Card, card => card.board)
-	@Field(() => [Card])
+	// @Field(() => [Card])
     cards?: Card[];
 
 }

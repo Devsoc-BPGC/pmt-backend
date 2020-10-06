@@ -1,6 +1,6 @@
 import {
 	Arg,
-   Args,
+	Args,
 	Field,
 	FieldResolver,
 	InputType,
@@ -15,6 +15,7 @@ import { Taskboard } from '../database/entity/Taskboard';
 import { Users } from '../database/entity/User';
 import { ProjectRepository } from '../repositories/Project';
 import { TaskboardRepository } from '../repositories/Taskboard';
+import { UserRepository } from '../repositories/User';
 
 @InputType()
 class ProjectInput {
@@ -34,11 +35,18 @@ export class ProjectResolver {
 
 	@Mutation(() => Project)
 	async createProject(
-		@Arg('project_data') projectData: ProjectInput
+		@Arg('project_data') { name, description, created_by_id }: ProjectInput
 	): Promise<Project> {
-		const project = await Project.create(projectData).save();
+		const user = await getCustomRepository(UserRepository).findOne(
+			created_by_id
+		);
+		const project = await Project.create({
+			name: name,
+			description: description,
+			created_by: user
+		}).save();
 		await this.ProjectRepo.addMemberToProject(
-			projectData.created_by_id,
+			created_by_id,
 			project
 		);
 		return project;
@@ -51,23 +59,29 @@ export class ProjectResolver {
 	}
 
 	@FieldResolver((type) => [Taskboard])
-   async boards(@Root() project: Project): Promise<Taskboard[]> {
-      return this.ProjectRepo.findTaskBoardsForProject(project.id);
-   }
+	async boards(@Root() project: Project): Promise<Taskboard[]> {
+		return this.ProjectRepo.findTaskBoardsForProject(project.id);
+	}
 
-   @FieldResolver(type => [Users])
-   async members(@Root() project: Project): Promise<Users[]> {
-      const members = await this.ProjectRepo.findMembersForProject(project.id);
-      return members;
-   }
+	@FieldResolver((type) => [Users])
+	async members(@Root() project: Project): Promise<Users[]> {
+		const members = await this.ProjectRepo.findMembersForProject(project.id);
+		return members;
+	}
 
-   @Mutation(() => Project)
-   async addMemberToProject(
-      @Arg('user_id') userId: number,
-      @Arg('project_id') projectId: number
-   ): Promise<Project> {
-      const project = await this.ProjectRepo.findOne(projectId);
-      this.ProjectRepo.addMemberToProject(userId, project!);
-      return project!;
-   }
+	@FieldResolver((type) => Users)
+	async created_by(@Root() project: Project): Promise<Users> {
+		const user = this.ProjectRepo.findCreatorOfProject(project.id);
+		return user!;
+	}
+
+	@Mutation(() => Project)
+	async addMemberToProject(
+		@Arg('user_id') userId: number,
+		@Arg('project_id') projectId: number
+	): Promise<Project> {
+		const project = await this.ProjectRepo.findOne(projectId);
+		this.ProjectRepo.addMemberToProject(userId, project!);
+		return project!;
+	}
 }
