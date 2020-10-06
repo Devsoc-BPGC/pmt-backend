@@ -8,6 +8,7 @@ import { GraphQLSchema } from 'graphql';
 import { UserResolver } from '../resolvers/UserResolver';
 import { ProjectResolver } from '../resolvers/ProjectResolver';
 import { TaskBoardResolver } from '../resolvers/TaskBoardResolver';
+import { CardResolver } from '../resolvers/CardResolver';
 
 export default class GraphQlServer {
     public express: Application;
@@ -18,7 +19,7 @@ export default class GraphQlServer {
 
     public async mount(): Promise<Application> {
         const schema: GraphQLSchema = await buildSchema({
-            resolvers: [UserResolver, ProjectResolver, TaskBoardResolver]
+            resolvers: [UserResolver, ProjectResolver, TaskBoardResolver, CardResolver]
         });
         const server: ApolloServer = new ApolloServer({ schema });
         server.applyMiddleware({ app: this.express });
