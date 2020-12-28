@@ -6,8 +6,8 @@
   "scripts": {
     "build": "tsc --project './tsconfig.json'",
     "start:dev": "tsc --project './tsconfig.json' --watch & NODE_ENV=development nodemon build/app.js",
-    "start:prod": "tsc --project './tsconfig.json' --watch & NODE_ENV=development node build/app.js",
-    "lint": "tslint --project tsconfig.json",
+    "start:prod": "tsc --project './tsconfig.json' --watch & NODE_ENV=production node build/app.js",
+    "lint": "eslint -c .eslintrc.js --ext .ts src --fix",
     "test": "jest --passWithNoTests"
   },
   "author": "DevSoc",
@@ -66,10 +66,12 @@
     "@types/passport": "^1.0.4",
     "@types/passport-github": "^1.1.5",
     "@types/redis": "^2.8.25",
+    "@typescript-eslint/eslint-plugin": "^4.11.0",
+    "@typescript-eslint/eslint-plugin-tslint": "^4.11.0",
+    "@typescript-eslint/parser": "^4.11.0",
     "awesome-typescript-loader": "^5.2.0",
-    "eslint": "7.4.0",
+    "eslint": "^7.4.0",
     "jest": "^26.1.0",
-    "typescript": "3.9.6",
-    "typescript-eslint-parser": "^22.0.0"
+    "typescript": "3.9.6"
   }
 }

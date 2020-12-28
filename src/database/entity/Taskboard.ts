@@ -6,10 +6,10 @@ import {
 	CreateDateColumn,
 	Timestamp,
 	ManyToOne,
-    JoinColumn,
-    ManyToMany,
-    JoinTable,
-    OneToMany,
+	JoinColumn,
+	ManyToMany,
+	JoinTable,
+	OneToMany,
 	BaseEntity
 } from 'typeorm';
 
@@ -52,20 +52,20 @@ export class Taskboard extends BaseEntity {
 
 	@ManyToOne((type) => Project, project => project.boards)
 	// @Field(() => [Project])
-    project?: Project;
+	project?: Project;
 
-    @ManyToOne((type) => Users)
+	@ManyToOne((type) => Users)
 	@JoinColumn()
 	// @Field(() => [Users])
-    created_by?: Users;
+	created_by?: Users;
 
-    @ManyToMany(type => Users, user => user.boards)
+	@ManyToMany(type => Users, user => user.boards)
 	@JoinTable()
 	// @Field(() => [Users])
-    members?: Users[];
+	members?: Users[];
 
 	@OneToMany(type => Card, card => card.board)
 	// @Field(() => [Card])
-    cards?: Card[];
+	cards?: Card[];
 
 }

@@ -19,14 +19,14 @@ export class TaskboardRepository extends Repository<Taskboard> {
 			relations: ['members']
 		});
 		return board!.members!;
-   }
+	}
 
-   async findCreator(id: number): Promise<Users> {
-      const board = await this.findOne(id, {
-         relations: ['created_by']
-      });
-      return board?.created_by!;
-   }
+	async findCreator(id: number): Promise<Users> {
+		const board = await this.findOne(id, {
+			relations: ['created_by']
+		});
+		return board?.created_by!;
+	}
 
 	async addMemberToTaskBoard(
 		user_id: number,

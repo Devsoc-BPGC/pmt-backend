@@ -78,7 +78,7 @@ export class ProjectResolver {
 	@Mutation(() => Project)
 	async addMemberToProject(
 		@Arg('user_id') userId: number,
-		@Arg('project_id') projectId: number
+			@Arg('project_id') projectId: number
 	): Promise<Project> {
 		const project = await this.ProjectRepo.findOne(projectId);
 		this.ProjectRepo.addMemberToProject(userId, project!);
