@@ -44,14 +44,14 @@ export class CardResolver {
 	@Mutation((type) => Card)
 	async addCard(
 		@Arg('card_data')
-		{
-			title,
-			description,
-			board_id,
-			labels,
-			created_by_id,
-			deadline
-		}: CardInput
+			{
+				title,
+				description,
+				board_id,
+				labels,
+				created_by_id,
+				deadline
+			}: CardInput
 	): Promise<Card> {
 		const user = await this.UserRepo.findOne(created_by_id);
 		const board = await getCustomRepository(TaskboardRepository).findOne(
@@ -103,7 +103,7 @@ export class CardResolver {
 	@Mutation((type) => Card)
 	async addMemberToCard(
 		@Arg('card_id') cardId: number,
-		@Arg('user_id') userId: number
+			@Arg('user_id') userId: number
 	): Promise<Card> {
 		const card = await this.CardRepo.findOne(cardId);
 		await this.CardRepo.assignMemberToCard(userId, card!);

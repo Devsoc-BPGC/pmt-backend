@@ -13,7 +13,9 @@ class Loggers {
 		console.log('File Logger Error: ', err);
 		console.log('Due to the above error, incoming requests will not be saved to the logfile');
 		return morgan('dev', {
-			skip: function (req: Request, res: Response) { return true; }
+			skip: function (req: Request, res: Response) {
+				return true;
+			}
 		});
 	}
 

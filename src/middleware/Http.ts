@@ -61,7 +61,7 @@ class Http {
 			  session: false
 			}),
 			(req, res, next) => {
-              // Call auth controller
+				// Call auth controller
 			}
 		  );
 
