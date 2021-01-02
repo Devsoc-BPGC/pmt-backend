@@ -8,7 +8,7 @@ services:
     #image: node:10.19.0
     command: npm run start:prod
     ports:
-      - "5000:5000" #specify ports forwarding
+      - "5001:5001" #specify ports forwarding
     networks: 
       - mello
     links:
