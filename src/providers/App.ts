@@ -15,7 +15,7 @@ export class App {
 	public PORT: string;
 
 	constructor() {
-		this.PORT = process.env.PORT || '5000';
+		this.PORT = process.env.PORT || '5001';
 	}
 
 	/**
