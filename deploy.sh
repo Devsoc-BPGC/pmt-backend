@@ -9,9 +9,9 @@ if [ $TRAVIS_BRANCH == 'staging' ] ; then
   eval "$(ssh-agent -s)"
   ssh-add ~/.ssh/id_rsa
 
-  ssh -o "StrictHostKeyChecking no" travis@devsoc.club
+  ssh -o "StrictHostKeyChecking no" travis@devsoc.club 'exit'
   rsync -a ./ travis@devsoc.club:/home/travis/pmt-backend/
-  ssh travis@devsoc.club 'cd pmt-backend && npm run restart:pm2'
+  ssh travis@devsoc.club 'cd pmt-backend && npm run restart:pm2 && exit'
   
 else
   echo "Not deploying, since the branch isn't staging branch."
