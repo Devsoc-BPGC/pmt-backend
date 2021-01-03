@@ -20,7 +20,7 @@ class Loggers {
 	}
 
 	public genstream(): fs.WriteStream {
-		return fs.createWriteStream( join(__dirname, '../../logs/logger.txt'), { flags: 'as' });
+		return fs.createWriteStream( join(__dirname, '../../logs/logger.txt'), { flags: 'a' });
 	}
 
 	public filelogger(): RequestHandler {
