@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "build": "tsc --project './tsconfig.json'",
-    "start:dev": "tsc --project './tsconfig.json' --watch & NODE_ENV=development node build/app.js",
+    "start:dev": "tsc --project './tsconfig.json' --watch & NODE_ENV=development nodemon build/app.js",
     "start:prod": "tsc --project './tsconfig.json' --watch & NODE_ENV=production node build/app.js",
     "restart:pm2": "tsc --project './tsconfig.json' & NODE_ENV=development pm2 restart mellobackend",
     "lint": "eslint -c .eslintrc.js --ext .ts src --fix",
