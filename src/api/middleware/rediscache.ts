@@ -61,7 +61,7 @@ class Cache {
 
 	public endConn (): void {
 		this.redisClient.quit(error => {
-			console.log(`Couldn't quit Redis :(`);
+			console.log('Couldn\'t quit Redis :(');
 		});
 	}
 }

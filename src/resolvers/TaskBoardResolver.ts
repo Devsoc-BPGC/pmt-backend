@@ -41,13 +41,13 @@ export class TaskBoardResolver {
 	@Mutation((type) => Taskboard)
 	async addBoard(
 		@Arg('board_data')
-		{
-			name,
-			description,
-			github_repo_url,
-			project_id,
-			created_by_id
-		}: TaskBoardInput
+			{
+				name,
+				description,
+				github_repo_url,
+				project_id,
+				created_by_id
+			}: TaskBoardInput
 	): Promise<Taskboard> {
 		const project = await getCustomRepository(ProjectRepository).findOne(
 			project_id
@@ -95,7 +95,7 @@ export class TaskBoardResolver {
 	@Mutation((type) => Taskboard)
 	async addMemberToBoard(
 		@Arg('user_id') userId: number,
-		@Arg('board_id') boardId: number
+			@Arg('board_id') boardId: number
 	): Promise<Taskboard> {
 		const board = await this.TaskBoardRepo.findOne(boardId);
 		await this.TaskBoardRepo.addMemberToTaskBoard(userId, board!);

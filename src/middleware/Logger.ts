@@ -13,12 +13,14 @@ class Loggers {
 		console.log('File Logger Error: ', err);
 		console.log('Due to the above error, incoming requests will not be saved to the logfile');
 		return morgan('dev', {
-			skip: function (req: Request, res: Response) { return true; }
+			skip: function (req: Request, res: Response) {
+				return true;
+			}
 		});
 	}
 
 	public genstream(): fs.WriteStream {
-		return fs.createWriteStream( join(__dirname, '../../logs/logger.txt'), { flags: 'as' });
+		return fs.createWriteStream( join(__dirname, '../../logs/logger.txt'), { flags: 'a' });
 	}
 
 	public filelogger(): RequestHandler {

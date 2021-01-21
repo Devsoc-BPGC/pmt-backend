@@ -9,7 +9,7 @@ export interface User {
 	name: string;
 	email: string;
 	avatar_url: string;
-    org_roles: UserRole;
+	org_roles: UserRole;
 	github_username: string;
 	projects?: Project[];
 	boards?: Taskboard[];

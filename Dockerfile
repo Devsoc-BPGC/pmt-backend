@@ -8,4 +8,4 @@ COPY package*.json ./
 RUN npm install --save-exact
 COPY . .
 
-EXPOSE 5000
+EXPOSE 5001

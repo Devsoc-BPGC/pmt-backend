@@ -24,9 +24,9 @@ export class Project extends BaseEntity {
 	@Field(() => ID)
 	id!: number;
 
-    @Column({
-      type: 'varchar',
-      unique: true
+	@Column({
+		type: 'varchar',
+		unique: true
 	})
 	@Field()
 	name!: string;
