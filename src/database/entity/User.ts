@@ -61,38 +61,44 @@ export class Users extends BaseEntity {
 
 	@OneToOne((type) => Github)
 	@JoinColumn()
-	// @Field(() => Github)
 	github?: Github;
 
-	@CreateDateColumn({ nullable: false })
+	@CreateDateColumn()
 	@Field()
-	created_at?: Date;
+	created_at!: Date;
 
-	@UpdateDateColumn({ nullable: false })
+	@UpdateDateColumn()
 	@Field()
-	updated_at?: Date;
+	updated_at!: Date;
 
 	@ManyToMany((type) => Project, project => project.members, {
 		cascade: true
 	})
-	// @Field(() => [Project])
 	projects?: Project[];
 
 	@ManyToMany(type => Taskboard, board => board.members, {
 		cascade: true
 	})
-	// @Field(() => [Taskboard])
 	boards?: Taskboard[];
 
 	@ManyToMany(type => Card, card => card.members, {
 		cascade: true
 	})
-	// @Field(() => [Card])
 	cards?: Card[];
 
 	@OneToMany((type) => Permission, permission => permission.user, {
 		cascade: true
 	})
-	// @Field(() => [Permission])
 	permissions?: Permission[];
+
+	// The following fields represent a list of all the
+	// cards/taskboards/projects created by the user
+	@OneToMany((type) => Card, card => card.created_by)
+	created_cards?: Card[];
+
+	@OneToMany((type) => Taskboard, board => board.created_by)
+	created_boards?: Taskboard[];
+
+	@OneToMany((type) => Project, project => project.created_by)
+	created_projects?: Project[];
 }

@@ -4,7 +4,6 @@ import {
 	PrimaryGeneratedColumn,
 	CreateDateColumn,
 	UpdateDateColumn,
-	Timestamp,
 	ManyToOne,
 	JoinColumn,
 	ManyToMany,
@@ -39,26 +38,41 @@ export class Card {
 
 	@CreateDateColumn()
 	@Field()
-	created_at?: Date;
+	created_at!: Date;
 
 	@UpdateDateColumn()
 	@Field()
-	updated_at?: Date;
+	updated_at!: Date;
 
 	@ManyToOne((type) => Taskboard, board => board.cards)
-	// @Field(() => Taskboard)
-	board?: Taskboard;
+	board!: Taskboard;
 
-	@ManyToOne((type) => Users)
-	@JoinColumn()
-	// @Field(() => Users)
-	created_by?: Users;
+	@ManyToOne((type) => Users, user => user.created_cards)
+	created_by!: Users;
 
 	@Column('text', { array: true, nullable: true })
 	@Field(() => [String], {
 		nullable: true
 	})
 	labels?: string[];
+
+	@Column('text', { array: true, nullable: true })
+	@Field(() => [String], {
+		nullable: true
+	})
+	label_colors?: string[];
+
+	@Column('text', { array: true, nullable: true })
+	@Field(() => [String], {
+		nullable:true
+	})
+	tasks?: string[];
+
+	@Column('boolean', { array: true, nullable: true })
+	@Field(() => [Boolean], {
+		nullable:true
+	})
+	task_status?: boolean[];
 
 	@Column({
 		type: 'enum',
@@ -70,17 +84,20 @@ export class Card {
 
 	@ManyToMany(type => Users, user => user.cards)
 	@JoinTable()
-	// @Field(() => [Users])
 	members?: Users[];
 
 	@Column({
 		type: 'timestamp',
 		nullable: true
 	})
-	// @Field()
-	completed_at?: Date;
+	@Field()
+	completed_at?: string;
 
 	@Column('timestamp')
-	// @Field()
-	deadline!: Date;
+	@Field()
+	deadline!: string;
+
+	@Column('text')
+	@Field()
+	background!: string;
 }
