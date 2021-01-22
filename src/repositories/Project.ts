@@ -42,7 +42,7 @@ export class ProjectRepository extends Repository<Project> {
 		});
 		if (user) {
 			user.projects?.push(project);
-			userRepo.save(user);
+			await userRepo.save(user);
 		}
 	}
 

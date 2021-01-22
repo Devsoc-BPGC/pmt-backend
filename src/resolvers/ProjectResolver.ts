@@ -27,6 +27,9 @@ class ProjectInput {
 
 	@Field()
 	created_by_id!: number;
+
+	@Field()
+	background!: string;
 }
 
 @Resolver(Project)
@@ -34,8 +37,8 @@ export class ProjectResolver {
 	ProjectRepo = getCustomRepository(ProjectRepository);
 
 	@Mutation(() => Project)
-	async createProject(
-		@Arg('project_data') { name, description, created_by_id }: ProjectInput
+	async CreateProject(
+		@Arg('project_data') { name, description, created_by_id, background }: ProjectInput
 	): Promise<Project> {
 		const user = await getCustomRepository(UserRepository).findOne(
 			created_by_id
@@ -43,17 +46,19 @@ export class ProjectResolver {
 		const project = await Project.create({
 			name: name,
 			description: description,
-			created_by: user
+			background: background,
+			created_by: user,
+			members:[user]
 		}).save();
-		await this.ProjectRepo.addMemberToProject(
-			created_by_id,
-			project
-		);
+		// await this.ProjectRepo.addMemberToProject(
+		// 	created_by_id,
+		// 	project
+		// );
 		return project;
 	}
 
 	@Query((type) => Project)
-	async projectInfo(@Arg('project_id') projectId: number): Promise<Project> {
+	async ProjectInfo(@Arg('project_id') projectId: number): Promise<Project> {
 		const project = await this.ProjectRepo.findOne(projectId);
 		return project!;
 	}
@@ -76,12 +81,14 @@ export class ProjectResolver {
 	}
 
 	@Mutation(() => Project)
-	async addMemberToProject(
+	async AddMemberToProject(
 		@Arg('user_id') userId: number,
 			@Arg('project_id') projectId: number
 	): Promise<Project> {
 		const project = await this.ProjectRepo.findOne(projectId);
-		this.ProjectRepo.addMemberToProject(userId, project!);
+		await this.ProjectRepo.addMemberToProject(userId, project!);
 		return project!;
 	}
+
+	// Create a Mutation for editing the project description, etc
 }
