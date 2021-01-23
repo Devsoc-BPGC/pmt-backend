@@ -15,10 +15,39 @@ import { Users } from './User';
 
 import { ObjectType, Field, ID } from 'type-graphql';
 
+
 export enum CardStatus {
 	ONGOING = 'ongoing',
 	TODO = 'todo',
 	COMPLETED = 'completed'
+}
+
+@ObjectType()
+export class Labels{
+	@Field(type => [String],{ nullable: true})
+	names!: string[];
+
+	@Field(type=> [String], {nullable:true})
+	desription!: string[];
+
+	constructor(names: string[], description: string[]) {
+		this.names = names;
+		this.desription = description;
+	}
+}
+
+@ObjectType()
+export class CheckList{
+	@Field(type => [String],{nullable:true})
+	tasks!: string[];
+
+	@Field(type=> [Boolean], {nullable:true})
+	task_status!: boolean[];
+
+	constructor(tasks: string[], task_status: boolean[]) {
+		this.tasks = tasks;
+		this.task_status = task_status;
+	}
 }
 
 @Entity({ name: 'cards' })
@@ -50,29 +79,36 @@ export class Card {
 	@ManyToOne((type) => Users, user => user.created_cards)
 	created_by!: Users;
 
-	@Column('text', { array: true, nullable: true })
-	@Field(() => [String], {
-		nullable: true
-	})
-	labels?: string[];
+	@Column('json', { nullable: true })
+	@Field((type) => Labels)
+	labels?: Labels;
 
-	@Column('text', { array: true, nullable: true })
-	@Field(() => [String], {
-		nullable: true
-	})
-	label_colors?: string[];
+	@Column('json', { nullable: true })
+	@Field(type => CheckList)
+	checklist?: CheckList;
+	// @Column('text', { array: true, nullable: true })
+	// @Field(() => [String], {
+	// 	nullable: true
+	// })
+	// labels?: string[];
 
-	@Column('text', { array: true, nullable: true })
-	@Field(() => [String], {
-		nullable:true
-	})
-	tasks?: string[];
+	// @Column('text', { array: true, nullable: true })
+	// @Field(() => [String], {
+	// 	nullable: true
+	// })
+	// label_colors?: string[];
 
-	@Column('boolean', { array: true, nullable: true })
-	@Field(() => [Boolean], {
-		nullable:true
-	})
-	task_status?: boolean[];
+	// @Column('text', { array: true, nullable: true })
+	// @Field(() => [String], {
+	// 	nullable:true
+	// })
+	// tasks?: string[];
+
+	// @Column('boolean', { array: true, nullable: true })
+	// @Field(() => [Boolean], {
+	// 	nullable:true
+	// })
+	// task_status?: boolean[];
 
 	@Column({
 		type: 'enum',

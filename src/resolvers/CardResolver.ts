@@ -5,12 +5,13 @@ import {
 	FieldResolver,
 	InputType,
 	Mutation,
+	ObjectType,
 	Query,
 	Resolver,
 	Root
 } from 'type-graphql';
-import { Any, getCustomRepository } from 'typeorm';
-import { Card, CardStatus } from '../database/entity/Card';
+import { getCustomRepository } from 'typeorm';
+import { Card, CardStatus, CheckList, Labels } from '../database/entity/Card';
 import { Users } from '../database/entity/User';
 import { CardRepository } from '../repositories/Card';
 import { TaskboardRepository } from '../repositories/Taskboard';
@@ -31,7 +32,7 @@ class CardInput {
 	created_by_id!: number;
 
 	@Field(() => [String], { nullable: true })
-	labels?: string[];
+	label_names?: string[];
 
 	@Field(() => [String], { nullable: true })
 	label_colors?: string[];
@@ -86,7 +87,7 @@ export class CardResolver {
 				title,
 				description,
 				board_id,
-				labels,
+				label_names,
 				label_colors,
 				tasks,
 				task_status,
@@ -99,18 +100,36 @@ export class CardResolver {
 		const board = await getCustomRepository(TaskboardRepository).findOne(
 			board_id
 		);
-		task_status = Array(tasks?.length).fill(false);
+
+		let labels: Labels= new Labels([],[]);
+		let checklist: CheckList = new CheckList([],[]);
+
+		if (label_names && label_colors) {
+			labels= new Labels(label_names, label_colors);
+		}
+		if (tasks) {
+			task_status = Array(tasks?.length).fill(false);
+			checklist = new CheckList(tasks, task_status);
+		}
+
 		const card = this.CardRepo.create({
 			title: title,
 			description: description,
 			deadline: deadline,
 			created_by: user,
 			board: board,
-			labels: labels,
-			label_colors: label_colors,
-			tasks: tasks,
-			task_status: task_status,
-			background: background
+			background: background,
+			checklist: checklist,
+			labels: labels
+			// title: title,
+			// description: description,
+			// deadline: deadline,
+			// created_by: user,
+			// board: board,
+			// labels: Labels,
+			// // label_colors: label_colors,
+			// checklist: checklist,
+			// background: background
 		});
 		await this.CardRepo.save(card);
 		return card!;
@@ -140,6 +159,14 @@ export class CardResolver {
 			return '';
 		}
 	}
+
+	// @FieldResolver(type => Labels)
+	// labels(@Root() card: Card): Labels {
+	// 	const labels: Labels = new Labels();
+	// 	labels.names: = card.labels?.names!;
+	// 	labels.description = card.labels?.description!;
+	// 	return labels!;
+	// };
 
 	@FieldResolver((type) => [Users])
 	async members(@Root() card: Card): Promise<Users[]> {
@@ -196,10 +223,13 @@ export class CardResolver {
 		if (card) {
 			card.title = title;
 			card.description = description;
-			card.tasks = tasks;
-			card.task_status = task_status;
-			card.labels = labels;
-			card.label_colors = label_colors;
+			card.checklist = {
+				tasks: tasks,
+				task_status: task_status
+			};
+			// card.tasks = tasks;
+			// card.task_status = task_status;
+			card.labels = new Labels(labels,label_colors);
 			card.deadline = deadline;
 			await this.CardRepo.save(card);
 			return card;
