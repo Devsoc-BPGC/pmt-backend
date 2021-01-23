@@ -14,6 +14,9 @@ import { Card } from '../database/entity/Card';
 import { Project } from '../database/entity/Project';
 import { Taskboard } from '../database/entity/Taskboard';
 import { UserRole, Users } from '../database/entity/User';
+import { CardRepository } from '../repositories/Card';
+import { ProjectRepository } from '../repositories/Project';
+import { TaskboardRepository } from '../repositories/Taskboard';
 import { UserRepository } from '../repositories/User';
 
 @InputType()
@@ -37,7 +40,7 @@ export class UserResolver {
 	UserRepo = getCustomRepository(UserRepository);
 
 	@Mutation(() => Users)
-	async signUp(
+	async SignUp(
 		@Arg('user_data') { name, email, github_username }: UserInput
 	): Promise<Users> {
 		const newUser = Users.create({
@@ -49,7 +52,7 @@ export class UserResolver {
 	}
 
 	@Query((id) => Users)
-	async userInfo(@Arg('user_id') userId: number): Promise<Users> {
+	async UserInfo(@Arg('user_id') userId: number): Promise<Users> {
 		const user = await this.UserRepo.findOne(userId);
 		return user!;
 	}
@@ -68,4 +71,33 @@ export class UserResolver {
 	async boards(@Root() user: Users): Promise<Taskboard[]> {
 		return this.UserRepo.findBoardsForUser(user.id);
 	}
+
+	@FieldResolver(type => [Project])
+	async projects_created(@Root() user: Users): Promise<Project[]>{
+		return getCustomRepository(ProjectRepository).find({
+			where: {
+				created_by: user
+			}
+		});
+	}
+
+	@FieldResolver(type => [Taskboard])
+	async boards_created(@Root() user: Users): Promise<Taskboard[]>{
+		return getCustomRepository(TaskboardRepository).find({
+			where: {
+				created_by: user
+			}
+		});
+	}
+
+	@FieldResolver(type => [Card])
+	async cards_created(@Root() user: Users): Promise<Card[]>{
+		return getCustomRepository(CardRepository).find({
+			where: {
+				created_by: user
+			}
+		});
+	}
+
+	// Create a mutation for editing the user-details
 }

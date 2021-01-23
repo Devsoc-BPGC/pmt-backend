@@ -2,11 +2,9 @@ import {
 	Entity,
 	PrimaryGeneratedColumn,
 	Column,
-	JoinColumn,
 	ManyToOne,
 	CreateDateColumn,
 	UpdateDateColumn,
-	Timestamp,
 	OneToMany,
 	ManyToMany,
 	JoinTable,
@@ -39,31 +37,25 @@ export class Project extends BaseEntity {
 	// @Field()
 	// chat_channel_id?: number;
 
-	// @Column({
-	// 	type: 'int'
-	// })
-	// // @Field()
-	// created_by_id!: number;
-
-	@ManyToOne((type) => Users)
-	@JoinColumn()
-	// @Field(() => Users)
+	@ManyToOne((type) => Users, user => user.created_projects)
 	created_by!: Users;
 
 	@OneToMany((type) => Taskboard, taskboard => taskboard.project)
-	// @Field(() => [Taskboard])
 	boards?: Taskboard[];
 
-	@CreateDateColumn({ nullable: false })
+	@CreateDateColumn()
 	@Field()
-	created_time?: Date;
+	created_time!: Date;
 
-	@UpdateDateColumn({ nullable: false })
+	@UpdateDateColumn()
 	@Field()
-	updated_time?: Date;
+	updated_time!: Date;
 
 	@ManyToMany((type) => Users, user => user.projects)
 	@JoinTable()
-	// @Field(() => [Users])
 	members?: Users[];
+
+	@Column('text')
+	@Field()
+	background!: string;
 }

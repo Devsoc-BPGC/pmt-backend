@@ -32,6 +32,9 @@ class TaskBoardInput {
 
 	@Field()
 	created_by_id!: number;
+
+	@Field()
+	background!: string;
 }
 
 @Resolver(Taskboard)
@@ -39,14 +42,15 @@ export class TaskBoardResolver {
 	TaskBoardRepo = getCustomRepository(TaskboardRepository);
 
 	@Mutation((type) => Taskboard)
-	async addBoard(
+	async AddBoard(
 		@Arg('board_data')
 			{
 				name,
 				description,
 				github_repo_url,
 				project_id,
-				created_by_id
+				created_by_id,
+				background
 			}: TaskBoardInput
 	): Promise<Taskboard> {
 		const project = await getCustomRepository(ProjectRepository).findOne(
@@ -61,15 +65,17 @@ export class TaskBoardResolver {
 			description: description,
 			github_repo_url: github_repo_url,
 			project: project,
-			created_by: user
+			created_by: user,
+			background: background,
+			members:[user]
 		}).save();
 
-		this.TaskBoardRepo.addMemberToTaskBoard(created_by_id, board);
+		// this.TaskBoardRepo.addMemberToTaskBoard(created_by_id, board);
 		return board!;
 	}
 
 	@Query((returns) => Taskboard)
-	async boardInfo(@Arg('board_id') boardId: number): Promise<Taskboard> {
+	async BoardInfo(@Arg('board_id') boardId: number): Promise<Taskboard> {
 		const board = await this.TaskBoardRepo.findOne(boardId);
 		return board!;
 	}
@@ -93,12 +99,32 @@ export class TaskBoardResolver {
 	}
 
 	@Mutation((type) => Taskboard)
-	async addMemberToBoard(
+	async AddMemberToBoard(
 		@Arg('user_id') userId: number,
 			@Arg('board_id') boardId: number
 	): Promise<Taskboard> {
 		const board = await this.TaskBoardRepo.findOne(boardId);
 		await this.TaskBoardRepo.addMemberToTaskBoard(userId, board!);
 		return board!;
+	}
+
+	@Mutation((type) => Taskboard)
+	async EditBoard(
+		@Arg('board_id') board_id: number,
+			@Arg('board_data') {
+				name,
+				description,
+				github_repo_url,
+				project_id,
+				created_by_id,
+				background
+			}: TaskBoardInput
+	): Promise<Taskboard> {
+		let board = await this.TaskBoardRepo.findOne(board_id);
+		board!.name = name;
+		board!.description = description;
+		board!.github_repo_url = github_repo_url;
+		board!.background = background;
+		return await this.TaskBoardRepo.save(board!);
 	}
 }
